@@ -1,0 +1,24 @@
+name: Geänderte Seiten an Suchmaschinen melden
+on:
+  push:
+    branches: [main]
+    paths: ["**.html", "sitemap.xml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  melden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Warten, bis GitHub Pages die neue Fassung ausliefert
+        run: sleep 120
+      - name: Geänderte Seiten melden
+        if: github.event_name == 'push'
+        run: python3 tools/indexnow.py
+      - name: Bei manuellem Start alle Seiten melden
+        if: github.event_name == 'workflow_dispatch'
+        run: python3 tools/indexnow.py --alle

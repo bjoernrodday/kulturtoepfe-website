@@ -11,6 +11,10 @@
 <meta property="og:description" content="Förderprogramme von Ländern, Regionen, Bund, EU und Stiftungen, passend zu deinem Vorhaben. Kostenlos und ohne Anmeldung.">
 <meta property="og:url" content="https://kulturtoepfe.de/">
 <meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Kulturtöpfe">
+<meta property="og:image" content="https://kulturtoepfe.de/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Kulturtöpfe", "url": "https://kulturtoepfe.de/", "inLanguage": "de", "description": "Förderprogramme für Kulturprojekte von Ländern, Regionen, Bund, EU und Stiftungen, passend zum eigenen Vorhaben.", "publisher": {"@type": "Person", "name": "Björn Rodday"}}</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/fonts.css">
 <script>try{var t=localStorage.getItem("kulturtoepfe-thema");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
@@ -175,6 +179,7 @@ details.mehr dd { margin: 0; overflow-wrap: anywhere; }
 @media (max-width: 520px) { details.mehr dl { grid-template-columns: minmax(0, 1fr); } details.mehr dd { margin-bottom: 6px; } }
 .fuss { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; border-top: 1px dashed var(--line); padding-top: 10px; font-size: 0.84rem; color: var(--muted); }
 .fuss a { font-weight: 700; }
+.fuss a.detail { font-weight: 500; color: var(--muted); }
 .unsicher { color: var(--stamp); }
 .leer { background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 24px; color: var(--muted); }
 .mehr-laden { justify-self: center; font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 8px 18px; cursor: pointer; }
@@ -302,6 +307,29 @@ footer.seite p { margin: 0; max-width: 80ch; }
       <div class="liste" id="liste" aria-live="polite"></div>
     </section>
   </div>
+
+  
+<nav class="stoebern" aria-labelledby="stoebern-titel">
+<style>
+.stoebern { max-width: 1120px; margin: 56px auto 0; padding: 24px 0 0; border-top: 1px solid var(--line); }
+.stoebern h2 { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em; margin: 0 0 4px; }
+.stoebern > p { color: var(--muted); margin: 0 0 18px; }
+.stoebern .spalten { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.stoebern h3 { font-family: var(--font-mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 500; margin: 0 0 8px; }
+.stoebern ul { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 16px; font-size: .92rem; line-height: 1.9; }
+.stoebern ul.eine { columns: 1; }
+.stoebern li span { color: var(--muted); font-family: var(--font-mono); font-size: .75rem; }
+.stoebern a { color: var(--ink); text-decoration-color: var(--line); text-underline-offset: 3px; }
+.stoebern a:hover { color: var(--accent); }
+</style>
+<h2 id="stoebern-titel">Stöbern</h2>
+<p>Alle Programme nach Bundesland, Sparte und Fördergeber, dazu die <a href="fristen.html">nächsten Antragsfristen</a>.</p>
+<div class="spalten">
+<div><h3>Bundesländer</h3><ul><li><a href="land/baden-wuerttemberg.html">Baden-Württemberg</a> <span>23</span></li><li><a href="land/bayern.html">Bayern</a> <span>51</span></li><li><a href="land/berlin.html">Berlin</a> <span>16</span></li><li><a href="land/brandenburg.html">Brandenburg</a> <span>19</span></li><li><a href="land/bremen.html">Bremen</a> <span>8</span></li><li><a href="land/hamburg.html">Hamburg</a> <span>15</span></li><li><a href="land/hessen.html">Hessen</a> <span>15</span></li><li><a href="land/mecklenburg-vorpommern.html">Mecklenburg-Vorpommern</a> <span>14</span></li><li><a href="land/niedersachsen.html">Niedersachsen</a> <span>33</span></li><li><a href="land/nordrhein-westfalen.html">Nordrhein-Westfalen</a> <span>49</span></li><li><a href="land/rheinland-pfalz.html">Rheinland-Pfalz</a> <span>28</span></li><li><a href="land/saarland.html">Saarland</a> <span>3</span></li><li><a href="land/sachsen.html">Sachsen</a> <span>15</span></li><li><a href="land/sachsen-anhalt.html">Sachsen-Anhalt</a> <span>9</span></li><li><a href="land/schleswig-holstein.html">Schleswig-Holstein</a> <span>22</span></li><li><a href="land/thueringen.html">Thüringen</a> <span>11</span></li></ul></div>
+<div><h3>Sparten</h3><ul><li><a href="sparte/bildende-kunst.html">Bildende Kunst</a></li><li><a href="sparte/theater.html">Theater</a></li><li><a href="sparte/tanz.html">Tanz</a></li><li><a href="sparte/musik.html">Musik</a></li><li><a href="sparte/literatur.html">Literatur</a></li><li><a href="sparte/film-medien.html">Film und Medien</a></li><li><a href="sparte/soziokultur.html">Soziokultur</a></li><li><a href="sparte/kulturelle-bildung.html">Kulturelle Bildung</a></li><li><a href="sparte/kulturerbe-museum.html">Kulturerbe und Museum</a></li><li><a href="sparte/games.html">Games</a></li><li><a href="sparte/design-architektur.html">Design und Architektur</a></li><li><a href="sparte/spartenuebergreifend.html">Spartenübergreifend</a></li></ul></div>
+<div><h3>Fördergeber</h3><ul class="eine"><li><a href="foerderer/bund.html">Kulturförderung des Bundes</a></li><li><a href="foerderer/eu.html">EU-Kulturförderung</a></li><li><a href="foerderer/stiftungen.html">Stiftungen und Fonds</a></li><li><a href="fristen.html">Nächste Fristen</a></li></ul></div>
+</div>
+</nav>
 
   <footer class="seite">
     <p>Kulturtöpfe ist ein unverbindlicher Service. Für Richtigkeit, Vollständigkeit und Aktualität der Angaben wird keine Gewähr übernommen. Maßgeblich sind allein die Ausschreibungen und Richtlinien der Fördergeber, auf die jeder Eintrag verlinkt. Bitte prüfe Fristen, Fördersummen und Antragsberechtigung dort, bevor du einen Antrag schreibst.</p>
@@ -463,7 +491,10 @@ function karte(t) {
   const link = el("a", null, "Zur Ausschreibung ↗"); link.href = p.url; link.target = "_blank"; link.rel = "noopener";
   const info = el("span", null, `geprüft am ${fmtDatum(p.zuletzt_geprueft)}`);
   if (p.unsicher && p.unsicher.length) { info.append(" · "); info.append(el("span", "unsicher", "einzelne Angaben unbestätigt")); }
-  fuss.append(link, info);
+  if (/kulturtoepfe\.de$/.test(location.hostname)) {
+    const det = el("a", "detail", "Alle Angaben"); det.href = `programm/${encodeURIComponent(p.id)}.html`;
+    const l = el("span"); l.append(link, " · ", det); fuss.append(l, info);
+  } else fuss.append(link, info);
   a.append(fuss);
   return a;
 }
