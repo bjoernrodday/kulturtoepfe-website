@@ -180,6 +180,9 @@ details.mehr dd { margin: 0; overflow-wrap: anywhere; }
 .fuss { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; border-top: 1px dashed var(--line); padding-top: 10px; font-size: 0.84rem; color: var(--muted); }
 .fuss a { font-weight: 700; }
 .fuss a.detail { font-weight: 500; color: var(--muted); }
+.pruefen { font-size: 0.86rem; line-height: 1.45; border-left: 2px solid var(--stamp); padding: 2px 0 2px 10px; color: var(--ink); }
+.pruefen b { color: var(--stamp); font-weight: 600; }
+.erfasst { font-size: 0.8rem; color: var(--muted); margin: -4px 0 14px; line-height: 1.45; }
 .unsicher { color: var(--stamp); }
 .leer { background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 24px; color: var(--muted); }
 .mehr-laden { justify-self: center; font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 8px 18px; cursor: pointer; }
@@ -218,7 +221,7 @@ footer.seite p { margin: 0; max-width: 80ch; }
     <h1 class="wort">Kultur<span>töpfe</span></h1>
     <div class="unter">
       <div>
-        <p class="lede">Förderprogramme für Kulturprojekte, von den Ländern und Regionen über Bund und EU bis zu Stiftungen. Beschreib dein Vorhaben, und die Liste zeigt, was dazu passt.</p>
+        <p class="lede">Förderprogramme für Kulturprojekte, von den Ländern und Regionen über Bund und EU bis zu Stiftungen. Beschreib dein Vorhaben, und die Liste zeigt, was dazu passt. Kommunale Förderung von Städten und Landkreisen ist noch nicht enthalten.</p>
         <p class="von">Ein Projekt von Björn Rodday · <a href="https://www.instagram.com/bjoern_rodday/" target="_blank" rel="noopener">@bjoern_rodday</a> · Deine Angaben bleiben in deinem Browser.</p>
       </div>
       <dl class="zahlen">
@@ -244,7 +247,7 @@ footer.seite p { margin: 0; max-width: 80ch; }
         <select id="region" aria-label="Region" hidden>
           <option value="">Alle Regionen des Landes</option>
         </select>
-        <p class="hilfe">Gemeint ist der Sitz der Person oder Einrichtung, die den Antrag stellt.</p>
+        <p class="hilfe">Gemeint ist der Sitz der Person oder Einrichtung, die den Antrag stellt. Bei regionalen Programmen zählt oft auch, wo das Vorhaben stattfindet; das steht dann unter „Bitte prüfen“.</p>
       </fieldset>
 
       <fieldset>
@@ -279,9 +282,9 @@ footer.seite p { margin: 0; max-width: 80ch; }
       </fieldset>
 
       <fieldset>
-        <legend><span class="nr">7</span> Stichworte zur Idee <span class="opt">(optional)</span></legend>
-        <input type="search" id="worte" placeholder="z. B. Chor, Denkmal, Residenz, Tschechien">
-        <p class="hilfe">Durchsucht Namen, Beschreibungen und Hinweise der Programme.</p>
+        <legend><span class="nr">7</span> Stichworte <span class="opt">(optional)</span></legend>
+        <input type="search" id="worte" placeholder="z. B. Roman, Chor, Denkmal, Tschechien">
+        <p class="hilfe">Einzelne Begriffe statt ganzer Sätze. Gesucht wird auch nach verwandten Wörtern, etwa bei „Roman“ nach Literatur und Prosa. Es reicht, wenn eines der Stichworte passt.</p>
       </fieldset>
 
       <label class="schalter" for="merken"><input type="checkbox" id="merken"> Auswahl in diesem Browser merken</label>
@@ -304,6 +307,7 @@ footer.seite p { margin: 0; max-width: 80ch; }
           <label class="schalter" for="ruhende"><input type="checkbox" id="ruhende"> auch Programme ohne laufende Ausschreibung</label>
         </div>
       </div>
+      <p class="erfasst" id="erfasst"></p>
       <div class="liste" id="liste" aria-live="polite"></div>
     </section>
   </div>
@@ -372,10 +376,45 @@ function chips(container, map, name, type) {
   }
 }
 
+const FUELL = new Set(("ich du er sie es wir ihr man mein meine meinen meiner unser unsere unseren unserer euer eure ein eine einen einem einer eines der die das den dem des "
+ + "und oder aber auch noch sehr mehr wie was wer wo wann als so sich nicht kein keine keinen mit ohne für fuer von vom zum zur im in am an auf aus bei nach über ueber unter um zu bis "
+ + "ist sind war waren wird werden bin habe haben hat möchte möchten moechte will wollen würde würden wuerde gerne gern plane planen planung machen mache tun soll sollen kann können "
+ + "dass dafür dazu damit diese dieser dieses diesem neue neuen neues neu eigene eigenes eigenen bitte suche suchen brauche brauchen benötige geld finanzierung förderung foerderung "
+ + "projekt projekte projekts vorhaben idee ideen kultur kulturell kulturelle kulturellen thema rahmen jahr").split(/\s+/));
+const VERWANDT = [
+  [["roman","prosa","erzähl","lyrik","gedicht","buch","bücher","schreib","autor","lesung","literar","übersetz"], ["literatur","prosa","autor","schreib","lyrik","übersetz"]],
+  [["chor","orchester","band","konzert","musik","kompon","lied","jazz","pop","rock","ensemble","oper"], ["musik","chor","orchester","konzert","ensemble"]],
+  [["theater","bühne","schauspiel","performance","inszen","figurentheater","zirkus"], ["theater","darstellend","bühne","performance"]],
+  [["tanz","choreo","ballett"], ["tanz","choreo"]],
+  [["film","kino","doku","video","kurzfilm"], ["film","kino","medien"]],
+  [["ausstell","malerei","skulptur","fotograf","atelier","galerie","kunstwerk"], ["ausstell","bildend","atelier"]],
+  [["museum","denkmal","archiv","sammlung","kulturerbe","heimat","geschichte"], ["museum","denkmal","kulturerbe","erbe","archiv","heimat"]],
+  [["game","spiel","videospiel"], ["game","spiel"]],
+  [["kinder","jugend","schule","schüler","kita"], ["kinder","jugend","schul"]],
+  [["festival"], ["festival","veranstaltung"]],
+  [["residenz","stipend","aufenthalt"], ["residenz","stipend","aufenthalt"]],
+  [["tschech"], ["tschech"]], [["polen","polnisch"], ["polen","poln"]], [["franz","frankreich"], ["frankreich","franz"]],
+  [["digital","online","virtuell"], ["digital"]], [["inklus","barrierefrei","behinder"], ["inklus","barriere"]],
+];
+function stamm(w) { return w.length > 5 ? w.replace(/(innen|ungen|ung|en|er|es|em|e|n|s)$/, "") : w; }
+function stichworte(text) {
+  const roh = text.toLowerCase().replace(/[„“"'.!?()]/g, " ").split(/[\s,;:/]+/).filter(w => w.length > 2 && !FUELL.has(w) && !/^\d+$/.test(w));
+  return [...new Set(roh)].map(w => {
+    const s = stamm(w), such = new Set([s]);
+    for (const [aus, zu] of VERWANDT) if (aus.some(a => s.startsWith(a) || w.startsWith(a))) zu.forEach(z => such.add(z));
+    return { wort: w, such: [...such] };
+  });
+}
+function suchtext(p) {
+  return (p._text ||= [p.name, p.foerdergeber, p.kurzbeschreibung, p.hinweise || "", p.gebiet.beschreibung, p.region || "",
+    ...p.sparten.map(s => SPARTEN[s] || ""), ...p.projektarten.map(a => ARTEN[a] || ""), ...p.schwerpunkte.map(s => SCHWER[s] || "")].join(" ").toLowerCase());
+}
+function trifft(text, such) { return such.some(s => s.length >= 4 ? text.includes(s) : new RegExp(`(^|[^a-zäöüß])${s}`).test(text)); }
+
 function frage() {
   const werte = n => [...document.querySelectorAll(`input[name="${n}"]:checked`)].map(i => i.value);
   const [bmin, bmax] = ($("budget").value || "-").split("-").map(x => x === "" ? null : Number(x));
-  const worte = $("worte").value.toLowerCase().split(/[\s,;]+/).filter(w => w.length > 2);
+  const worte = stichworte($("worte").value);
   return { land: $("land").value, region: $("region").value, wer: werte("wer")[0] || "", sparten: werte("sparten"), arten: werte("arten"), schwer: werte("schwerpunkte"), bmin, bmax, worte, ruhende: $("ruhende").checked };
 }
 
@@ -385,15 +424,19 @@ function naechsteFrist(p) {
 }
 
 function bewerte(p, q) {
-  const grund = []; let punkte = 0;
+  const grund = [], pruefen = []; let punkte = 0;
   if (p.ruht && !q.ruhende) return null;
   const g = p.gebiet;
   if (q.land) {
     const ueberall = g.typ === "bundesweit" || g.typ === "eu_weit" || (g.laender.length === 0);
     if (!ueberall) {
       if (!g.laender.includes(q.land)) return null;
-      if (p.region && q.region && p.region !== q.region) return null;
-      grund.push(p.region || LAENDER[q.land]);
+      if (q.region) {
+        if (p.region && p.region !== q.region) return null;
+        if (g.regionen && g.regionen.length && !g.regionen.includes(q.region)) return null;
+      }
+      grund.push(p.region || (q.region && g.regionen && g.regionen.includes(q.region) ? q.region : LAENDER[q.land]));
+      if (!p.region && g.teilweise) pruefen.push(`gilt nur in Teilen des Gebiets (${g.beschreibung.length > 110 ? g.beschreibung.slice(0, 108).replace(/[ ,;(]+\S*$/, "") + " …" : g.beschreibung})`);
       punkte += 1;
     }
   }
@@ -418,18 +461,19 @@ function bewerte(p, q) {
   }
   if (q.bmin != null || q.bmax != null) {
     if (p.summe_min != null && q.bmax != null && p.summe_min > q.bmax) return null;
-    if (p.summe_max != null && q.bmin != null && p.summe_max < q.bmin) punkte -= 3;
+    if (p.summe_max != null && q.bmin != null && p.summe_max < q.bmin) { punkte -= 3; pruefen.push(`deckt nur einen Teil des Bedarfs: höchstens ${fmtEuro(p.summe_max)}`); }
   }
   if (q.worte.length) {
-    const text = (p.name + " " + p.foerdergeber + " " + p.kurzbeschreibung + " " + (p.hinweise || "") + " " + g.beschreibung).toLowerCase();
-    const t = q.worte.filter(w => text.includes(w));
+    const text = suchtext(p);
+    const t = q.worte.filter(w => trifft(text, w.such));
     if (!t.length) return null;
-    punkte += 2 * t.length; grund.push(...t.map(w => `„${w}“`));
+    punkte += 2 * t.length; grund.push(...t.map(w => `„${w.wort}“`));
   }
+  if (p.schwerpunkte.includes("grenzueberschreitend") && !q.schwer.includes("grenzueberschreitend")) pruefen.push("nur mit Partnern aus dem Ausland");
   const f = naechsteFrist(p);
   if (f) { const tage = (new Date(f.datum) - heute) / 864e5; if (tage <= 120) punkte += 0.5; }
   if (p.ruht) punkte -= 5;
-  return { p, punkte, grund: [...new Set(grund)], frist: f };
+  return { p, punkte, grund: [...new Set(grund)], pruefen, frist: f };
 }
 
 function stempel(t) {
@@ -437,7 +481,7 @@ function stempel(t) {
   if (p.ruht) { s.classList.add("grau"); s.append(el("span","k","Derzeit"), el("span","d","keine Runde")); return s; }
   if (t.frist) {
     const tage = Math.round((new Date(t.frist.datum) - heute) / 864e5);
-    if (t.frist.voraussichtlich) s.classList.add("vor");
+    if (t.frist.voraussichtlich) { s.classList.add("vor"); s.title = "Aus der wiederkehrenden Fristregel abgeleitet, vom Fördergeber noch nicht bestätigt"; }
     s.append(el("span","k", t.frist.art === "interessenbekundung" ? "Interesse bis" : t.frist.voraussichtlich ? "voraussichtl. bis" : "Eingang bis"),
              el("span","d", fmtDatum(t.frist.datum)),
              el("span","t", tage === 0 ? "heute" : tage === 1 ? "morgen" : `noch ${tage} Tage`));
@@ -448,6 +492,12 @@ function stempel(t) {
   s.classList.add("grau"); s.append(el("span","k","Frist"), el("span","d","beim Fördergeber"));
   return s;
 }
+
+const FELD = { summe_min: "Fördersumme", summe_max: "Fördersumme", foerderberechtigte: "Antragsberechtigung", eigenanteil: "Eigenanteil",
+  frist_rhythmus: "Fristen", fristen: "Fristen", richtlinie_url: "Richtlinie", url: "Link", kurzbeschreibung: "Beschreibung", gebiet: "Gebiet",
+  "gebiet.beschreibung": "Gebiet", "gebiet.ags": "Gebiet", "gebiet.laender": "Gebiet", projektarten: "Förderzwecke", sparten: "Sparten",
+  hinweise: "Hinweise", schwerpunkte: "Schwerpunkte", name: "Name", foerdergeber: "Fördergeber", foerderart: "Förderart" };
+function unbestaetigt(p) { return [...new Set((p.unsicher || []).map(f => FELD[f] || f))]; }
 
 function karte(t) {
   const p = t.p;
@@ -476,6 +526,11 @@ function karte(t) {
     a.append(w);
   }
 
+  if (t.pruefen && t.pruefen.length) {
+    const w = el("div", "pruefen"); w.append(el("b", null, "Bitte prüfen: "), t.pruefen.join(" · "));
+    a.append(w);
+  }
+
   const d = el("details", "mehr"); d.append(el("summary", null, "Worauf achten"));
   const dl = el("dl");
   const zeile = (k, v) => { if (!v) return; dl.append(el("dt", null, k), el("dd", null, v)); };
@@ -490,7 +545,8 @@ function karte(t) {
   const fuss = el("div", "fuss");
   const link = el("a", null, "Zur Ausschreibung ↗"); link.href = p.url; link.target = "_blank"; link.rel = "noopener";
   const info = el("span", null, `geprüft am ${fmtDatum(p.zuletzt_geprueft)}`);
-  if (p.unsicher && p.unsicher.length) { info.append(" · "); info.append(el("span", "unsicher", "einzelne Angaben unbestätigt")); }
+  const offen = unbestaetigt(p);
+  if (offen.length) { info.append(" · "); info.append(el("span", "unsicher", "unbestätigt: " + offen.join(", "))); }
   if (/kulturtoepfe\.de$/.test(location.hostname)) {
     const det = el("a", "detail", "Alle Angaben"); det.href = `programm/${encodeURIComponent(p.id)}.html`;
     const l = el("span"); l.append(link, " · ", det); fuss.append(l, info);
@@ -518,6 +574,9 @@ function update(keepSichtbar) {
   const leer = !q.land && !q.wer && !q.sparten.length && !q.arten.length && !q.schwer.length && !q.worte.length && q.bmin == null && q.bmax == null;
   $("anzahl").textContent = liste.length;
   $("treffer-text").textContent = leer ? (liste.length === 1 ? "Programm insgesamt" : "Programme insgesamt") : (liste.length === 1 ? "passendes Programm" : "passende Programme");
+  const ruhend = ALLE.filter(p => p.ruht).length;
+  $("erfasst").textContent = `${ALLE.length} Programme erfasst, davon ${ALLE.length - ruhend} mit laufender oder regelmäßiger Ausschreibung` +
+    (q.ruhende ? "" : `; ${ruhend} ohne laufende Ausschreibung sind ausgeblendet`) + ". Gestrichelter Stempel: Frist aus der Fristregel abgeleitet, noch nicht bestätigt.";
   $("springen").textContent = leer ? "Programme ansehen" : `${liste.length} passende Programme ansehen`;
 
   const box = $("liste"); box.replaceChildren();
