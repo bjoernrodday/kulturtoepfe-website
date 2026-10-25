@@ -1,0 +1,26 @@
+name: Statistik
+
+on:
+  schedule:
+    - cron: "23 3 * * *"   # täglich 03:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  statistik:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Zahlen von GoatCounter holen
+        env:
+          GOATCOUNTER_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: python3 tools/statistik.py
+      - name: Speichern
+        run: |
+          git config user.name "kulturtoepfe-statistik"
+          git config user.email "actions@users.noreply.github.com"
+          git add statistik
+          git diff --cached --quiet || git commit -m "Statistik $(date -u +%F)"
+          git pull --rebase -q && git push -q
