@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kulturtöpfe</title>
+<meta name="description" content="Förderprogramme für Kulturprojekte finden: Länder, Regionen, Bund, EU und Stiftungen. Kostenlos, ohne Anmeldung, ohne Gewähr.">
+<link rel="canonical" href="https://kulturtoepfe.de/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kulturtöpfe – Förderprogramme für Kulturprojekte">
+<meta property="og:description" content="Förderprogramme von Ländern, Regionen, Bund, EU und Stiftungen, passend zu deinem Vorhaben. Kostenlos und ohne Anmeldung.">
+<meta property="og:url" content="https://kulturtoepfe.de/">
+<meta property="og:locale" content="de_DE">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts.css">
+<script>try{var t=localStorage.getItem("kulturtoepfe-thema");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} [hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+/* Layout: links ein Antragsbogen (sticky am Desktop), rechts die Trefferliste; am Handy untereinander. Fristen als Eingangsstempel. */
+:root {
+  --paper: #f3f2f0;
+  --surface: #ffffff;
+  --ink: #221f1c;
+  --muted: #655f59;
+  --line: #dcd7d1;
+  --accent: #b04f0c;
+  --accent-soft: #f8e3d2;
+  --stamp: #b5093f;
+  --stamp-soft: #fbe5eb;
+  --calm: #2f6b4f;
+  --font-display: "Figtree", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14120f; --surface: #1d1a16; --ink: #eeebe7; --muted: #a8a199; --line: #37312b;
+    --accent: #ea8440; --accent-soft: #3d2312; --stamp: #ff5c86; --stamp-soft: #3e1424; --calm: #7fcaa5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14120f; --surface: #1d1a16; --ink: #eeebe7; --muted: #a8a199; --line: #37312b;
+  --accent: #ea8440; --accent-soft: #3d2312; --stamp: #ff5c86; --stamp-soft: #3e1424; --calm: #7fcaa5;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 16px/1.5 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+
+/* Kopf, in der Familie des Kulturzettels */
+header.top { padding-block: 24px 28px; display: grid; gap: 18px; border-bottom: 1px solid var(--line); }
+.meta {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 20px;
+  font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+}
+.meta .rechts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.thema { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.thema button {
+  font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--muted);
+  background: none; border: 0; border-radius: 999px; padding: 4px 12px; cursor: pointer;
+}
+.thema button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+h1.wort {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(3.2rem, 12vw, 9.5rem); line-height: 0.9; letter-spacing: -0.045em; margin: 0;
+  overflow-wrap: anywhere;
+}
+h1.wort span { color: var(--accent); }
+.unter { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 40px; }
+.lede { margin: 0; max-width: 46ch; font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.45; text-wrap: pretty; }
+.von { margin: 10px 0 0; font-size: 0.92rem; color: var(--muted); }
+.von a { color: inherit; }
+dl.zahlen { display: flex; gap: 28px; margin: 0; }
+dl.zahlen div { display: flex; flex-direction: column-reverse; gap: 2px; }
+dl.zahlen dd { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 3.6vw, 2.8rem); line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+dl.zahlen dt { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+
+/* Raster */
+.grid { display: grid; grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 32px; padding-block: 24px 64px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+
+/* Antragsbogen */
+form.bogen {
+  position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 20px; display: grid; gap: 18px; max-height: calc(100vh - 32px); overflow: auto;
+}
+@media (max-width: 860px) { form.bogen { position: static; max-height: none; } }
+.bogen-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.bogen-kopf h2 { font-family: var(--font-display); font-size: 1.15rem; margin: 0; }
+button.link { background: none; border: 0; color: var(--accent); font: inherit; font-size: 0.9rem; cursor: pointer; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; min-width: 0; }
+legend { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 0; margin-bottom: 8px; display: flex; gap: 8px; }
+legend .nr { color: var(--accent); }
+legend .opt { text-transform: none; letter-spacing: 0; }
+select, input[type="search"] {
+  width: 100%; font: inherit; font-size: 0.97rem; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--line); border-radius: var(--r); padding: 9px 10px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip span {
+  display: inline-block; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px;
+  font-size: 0.88rem; line-height: 1.3; background: var(--paper); color: var(--ink); cursor: pointer; user-select: none;
+}
+.chip input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hilfe { font-size: 0.82rem; color: var(--muted); margin: 0; }
+
+/* Ergebnisse */
+.ergebnis-kopf { display: grid; gap: 12px; margin-bottom: 16px; }
+.zeile { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 16px; }
+.ergebnis-kopf h2 { font-family: var(--font-display); font-size: clamp(1.25rem, 2.4vw, 1.6rem); margin: 0; text-wrap: balance; }
+.ergebnis-kopf h2 .zahl { font-variant-numeric: tabular-nums; color: var(--accent); }
+.sort { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; color: var(--muted); }
+.sort select { width: auto; padding: 6px 8px; }
+.ebenen { display: flex; flex-wrap: wrap; gap: 6px; }
+.ebenen button {
+  font: inherit; font-size: 0.86rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  border-radius: 999px; padding: 4px 11px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline;
+}
+.ebenen button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+.ebenen .n { font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.75; }
+label.schalter { display: inline-flex; gap: 8px; align-items: center; font-size: 0.88rem; color: var(--muted); cursor: pointer; }
+
+.liste { display: grid; gap: 12px; }
+article.prog {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 18px 20px; display: grid; gap: 10px; min-width: 0;
+}
+article.prog.ruht { opacity: 0.78; }
+.prog-kopf { display: flex; gap: 14px; justify-content: space-between; align-items: flex-start; }
+.prog-titel { min-width: 0; display: grid; gap: 4px; }
+.geber { font-size: 0.86rem; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.ebene {
+  font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+  border: 1px solid currentColor; border-radius: 3px; padding: 1px 6px; color: var(--accent);
+}
+.prog h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; line-height: 1.25; margin: 0; text-wrap: balance; overflow-wrap: anywhere; }
+
+/* Eingangsstempel */
+.stempel {
+  flex: none; font-family: var(--font-mono); text-align: center; color: var(--stamp);
+  border: 1.5px solid var(--stamp); border-radius: 4px; padding: 4px 8px 5px; transform: rotate(-2.5deg);
+  background: var(--stamp-soft); min-width: 7.6rem;
+}
+.stempel .k { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; }
+.stempel .d { display: block; font-size: 0.95rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.stempel .t { display: block; font-size: 0.66rem; }
+.stempel.ruhig { color: var(--calm); border-color: var(--calm); background: transparent; }
+.stempel.grau { color: var(--muted); border-color: var(--line); background: transparent; transform: none; }
+.stempel.vor { border-style: dashed; }
+
+.fakten { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.88rem; color: var(--muted); }
+.fakten b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+.prog p.kurz { margin: 0; max-width: 72ch; }
+.warum { font-size: 0.84rem; color: var(--muted); }
+.warum em { font-style: normal; color: var(--ink); background: var(--accent-soft); border-radius: 3px; padding: 0 4px; }
+details.mehr summary { cursor: pointer; font-size: 0.9rem; color: var(--accent); width: fit-content; }
+details.mehr dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 10px 0 0; font-size: 0.9rem; }
+details.mehr dt { color: var(--muted); }
+details.mehr dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 520px) { details.mehr dl { grid-template-columns: minmax(0, 1fr); } details.mehr dd { margin-bottom: 6px; } }
+.fuss { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; border-top: 1px dashed var(--line); padding-top: 10px; font-size: 0.84rem; color: var(--muted); }
+.fuss a { font-weight: 700; }
+.unsicher { color: var(--stamp); }
+.leer { background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 24px; color: var(--muted); }
+.mehr-laden { justify-self: center; font: inherit; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 8px 18px; cursor: pointer; }
+
+footer.seite { border-top: 1px solid var(--line); padding-block: 24px 40px; font-size: 0.86rem; color: var(--muted); display: grid; gap: 8px; }
+footer.seite p { margin: 0; max-width: 80ch; }
+
+/* Handy: Sprung zu den Ergebnissen */
+.springen { display: none; }
+@media (max-width: 860px) {
+  .springen {
+    display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: var(--paper); border-top: 1px solid var(--line);
+  }
+  .springen a { display: block; text-align: center; background: var(--accent); color: var(--surface); border-radius: var(--r); padding: 10px; text-decoration: none; font-weight: 700; }
+  footer.seite { padding-bottom: 96px; }
+}
+@media (prefers-reduced-motion: no-preference) { article.prog { animation: auf 0.25s ease-out both; } }
+@keyframes auf { from { transform: translateY(4px); } to { transform: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="meta">
+      <span>Kulturförderung · Länder, Bund, EU, Stiftungen</span>
+      <span class="rechts">
+        <span id="stand">Stand –</span>
+        <span class="thema" role="group" aria-label="Darstellung">
+          <button type="button" data-thema="auto" aria-pressed="true">Auto</button>
+          <button type="button" data-thema="light" aria-pressed="false">Hell</button>
+          <button type="button" data-thema="dark" aria-pressed="false">Dunkel</button>
+        </span>
+      </span>
+    </div>
+    <h1 class="wort">Kultur<span>töpfe</span></h1>
+    <div class="unter">
+      <div>
+        <p class="lede">Förderprogramme für Kulturprojekte, von den Ländern und Regionen über Bund und EU bis zu Stiftungen. Beschreib dein Vorhaben, und die Liste zeigt, was dazu passt.</p>
+        <p class="von">Ein Projekt von Björn Rodday · <a href="https://www.instagram.com/bjoern_rodday/" target="_blank" rel="noopener">@bjoern_rodday</a> · Deine Angaben bleiben in deinem Browser.</p>
+      </div>
+      <dl class="zahlen">
+        <div><dt>Programme</dt><dd id="z-programme">–</dd></div>
+        <div><dt>Fristen in 30 Tagen</dt><dd id="z-fristen">–</dd></div>
+        <div><dt>Fördergeber</dt><dd id="z-geber">–</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="grid">
+    <form class="bogen" id="bogen" autocomplete="off">
+      <div class="bogen-kopf">
+        <h2>Dein Vorhaben</h2>
+        <button type="button" class="link" id="leeren">Alles zurücksetzen</button>
+      </div>
+
+      <fieldset>
+        <legend><span class="nr">1</span> Wo sitzt ihr?</legend>
+        <select id="land" aria-label="Bundesland">
+          <option value="">Bundesland wählen</option>
+        </select>
+        <select id="region" aria-label="Region" hidden>
+          <option value="">Alle Regionen des Landes</option>
+        </select>
+        <p class="hilfe">Gemeint ist der Sitz der Person oder Einrichtung, die den Antrag stellt.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="nr">2</span> Wer stellt den Antrag?</legend>
+        <div class="chips" id="wer"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="nr">3</span> Sparte <span class="opt">(mehrere möglich)</span></legend>
+        <div class="chips" id="sparten"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="nr">4</span> Was ist geplant?</legend>
+        <div class="chips" id="arten"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="nr">5</span> Schwerpunkte <span class="opt">(optional)</span></legend>
+        <div class="chips" id="schwerpunkte"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="nr">6</span> Benötigte Fördersumme</legend>
+        <select id="budget" aria-label="Benötigte Fördersumme">
+          <option value="">egal</option>
+          <option value="0-5000">bis 5.000 €</option>
+          <option value="5000-25000">5.000 bis 25.000 €</option>
+          <option value="25000-100000">25.000 bis 100.000 €</option>
+          <option value="100000-">mehr als 100.000 €</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="nr">7</span> Stichworte zur Idee <span class="opt">(optional)</span></legend>
+        <input type="search" id="worte" placeholder="z. B. Chor, Denkmal, Residenz, Tschechien">
+        <p class="hilfe">Durchsucht Namen, Beschreibungen und Hinweise der Programme.</p>
+      </fieldset>
+
+      <label class="schalter" for="merken"><input type="checkbox" id="merken"> Auswahl in diesem Browser merken</label>
+    </form>
+
+    <section aria-labelledby="treffer-titel" id="ergebnisse">
+      <div class="ergebnis-kopf">
+        <div class="zeile">
+          <h2 id="treffer-titel"><span class="zahl" id="anzahl">0</span> <span id="treffer-text">Programme</span></h2>
+          <label class="sort" for="sortierung">Sortieren
+            <select id="sortierung">
+              <option value="passung">nach Passung</option>
+              <option value="frist">nach nächster Frist</option>
+              <option value="summe">nach Höchstsumme</option>
+            </select>
+          </label>
+        </div>
+        <div class="zeile">
+          <div class="ebenen" id="ebenen" role="group" aria-label="Nach Ebene filtern"></div>
+          <label class="schalter" for="ruhende"><input type="checkbox" id="ruhende"> auch Programme ohne laufende Ausschreibung</label>
+        </div>
+      </div>
+      <div class="liste" id="liste" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <footer class="seite">
+    <p>Kulturtöpfe ist ein unverbindlicher Service. Für Richtigkeit, Vollständigkeit und Aktualität der Angaben wird keine Gewähr übernommen. Maßgeblich sind allein die Ausschreibungen und Richtlinien der Fördergeber, auf die jeder Eintrag verlinkt. Bitte prüfe Fristen, Fördersummen und Antragsberechtigung dort, bevor du einen Antrag schreibst.</p>
+    <p>Kommunale Förderung ist noch nicht enthalten. Frag dafür beim Kulturamt deiner Stadt oder deines Landkreises nach.</p>
+    <p class="links"><a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a> · <a href="quellen.html">So entstehen die Daten</a> · <a href="https://www.instagram.com/bjoern_rodday/" target="_blank" rel="noopener">Instagram</a></p>
+    <p>Weitere Projekte von Björn Rodday: <a href="https://kulturzettel-bayreuth.de/" target="_blank" rel="noopener">Kulturzettel</a> – Kulturtermine in Bayreuth</p>
+  </footer>
+</div>
+<div class="springen"><a href="#ergebnisse" id="springen">Passende Programme ansehen</a></div>
+
+<script>
+(() => {
+const LAENDER = { BW:"Baden-Württemberg", BY:"Bayern", BE:"Berlin", BB:"Brandenburg", HB:"Bremen", HH:"Hamburg", HE:"Hessen", MV:"Mecklenburg-Vorpommern", NI:"Niedersachsen", NW:"Nordrhein-Westfalen", RP:"Rheinland-Pfalz", SL:"Saarland", SN:"Sachsen", ST:"Sachsen-Anhalt", SH:"Schleswig-Holstein", TH:"Thüringen" };
+const WER = { einzelperson:"Einzelperson", kuenstlergruppe:"Künstlergruppe", verein:"Verein", ggmbh_stiftung:"gGmbH oder Stiftung", kommune:"Kommune", oeffentliche_einrichtung:"Öffentliche Einrichtung", unternehmen:"Unternehmen", schule_kita:"Schule oder Kita", hochschule:"Hochschule" };
+const SPARTEN = { bildende_kunst:"Bildende Kunst", darstellende_kunst:"Theater", tanz:"Tanz", musik:"Musik", literatur:"Literatur", film_medien:"Film und Medien", soziokultur:"Soziokultur", kulturelle_bildung:"Kulturelle Bildung", kulturerbe_museum:"Kulturerbe und Museum", games:"Games", design_architektur:"Design und Architektur", spartenuebergreifend:"spartenübergreifend" };
+const ARTEN = { projekt_produktion:"Projekt oder Produktion", festival_veranstaltung:"Festival oder Veranstaltung", ausstellung:"Ausstellung", stipendium_residenz:"Stipendium oder Residenz", vermittlung_bildung:"Vermittlung und Bildung", austausch_mobilitaet:"Austausch und Reisen", publikation_tontraeger:"Publikation oder Tonträger", digitalisierung:"Digitalisierung", investition_ausstattung:"Investition oder Ausstattung", recherche_entwicklung:"Recherche und Entwicklung", struktur_institutionell:"Strukturförderung", preis_auszeichnung:"Preis oder Auszeichnung" };
+const SCHWER = { teilhabe:"Teilhabe", laendlicher_raum:"ländlicher Raum", kinder_jugend:"Kinder und Jugend", international:"international", grenzueberschreitend:"Nachbarland", digitales:"Digitales", inklusion:"Inklusion", interkultur_migration:"Interkultur", erinnerungskultur_demokratie:"Erinnerung und Demokratie", nachhaltigkeit_klima:"Nachhaltigkeit", innovation_experiment:"Experiment", ehrenamt:"Ehrenamt", heimat_tradition:"Heimat und Tradition" };
+const EBENEN = [["alle","Alle"],["eu","EU"],["bund","Bund"],["land","Land"],["bezirk","Region"],["stiftung","Stiftung"],["sonstige","Fonds und Lotterien"]];
+const EBENE_KURZ = { eu:"EU", bund:"Bund", land:"Land", bezirk:"Region", stiftung:"Stiftung", sonstige:"Fonds" };
+const ART = { zuschuss:"Zuschuss", stipendium:"Stipendium", preis:"Preis", darlehen:"Darlehen", residenz:"Residenz", sachleistung_beratung:"Sachleistung oder Beratung" };
+const RHYTHMUS = { laufend:"Antrag jederzeit", jaehrlich:"jährliche Ausschreibung", mehrere_termine:"mehrere Termine im Jahr", einmalig:"einmalige Ausschreibung", unbekannt:"Termine beim Fördergeber erfragen" };
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const heute = new Date(); heute.setHours(0,0,0,0);
+const fmtDatum = s => { const [y,m,d] = s.split("-"); return `${d}.${m}.${y}`; };
+const fmtEuro = n => n.toLocaleString("de-DE") + " €";
+const SPEICHER = "kulturtoepfe-bogen";
+
+let ALLE = [], ebeneFilter = "alle", sichtbar = 30;
+
+function chips(container, map, name, type) {
+  for (const [k, v] of Object.entries(map)) {
+    const lab = el("label", "chip");
+    const inp = document.createElement("input");
+    inp.type = type; inp.name = name; inp.value = k; inp.id = `${name}-${k}`;
+    if (type === "radio") inp.addEventListener("click", e => { if (inp.dataset.war === "1") { inp.checked = false; inp.dataset.war = ""; update(); } });
+    lab.append(inp, el("span", null, v));
+    container.append(lab);
+  }
+}
+
+function frage() {
+  const werte = n => [...document.querySelectorAll(`input[name="${n}"]:checked`)].map(i => i.value);
+  const [bmin, bmax] = ($("budget").value || "-").split("-").map(x => x === "" ? null : Number(x));
+  const worte = $("worte").value.toLowerCase().split(/[\s,;]+/).filter(w => w.length > 2);
+  return { land: $("land").value, region: $("region").value, wer: werte("wer")[0] || "", sparten: werte("sparten"), arten: werte("arten"), schwer: werte("schwerpunkte"), bmin, bmax, worte, ruhende: $("ruhende").checked };
+}
+
+function naechsteFrist(p) {
+  const kommend = p.fristen.filter(f => new Date(f.datum) >= heute).sort((a,b) => a.datum.localeCompare(b.datum));
+  return kommend[0] || null;
+}
+
+function bewerte(p, q) {
+  const grund = []; let punkte = 0;
+  if (p.ruht && !q.ruhende) return null;
+  const g = p.gebiet;
+  if (q.land) {
+    const ueberall = g.typ === "bundesweit" || g.typ === "eu_weit" || (g.laender.length === 0);
+    if (!ueberall) {
+      if (!g.laender.includes(q.land)) return null;
+      if (p.region && q.region && p.region !== q.region) return null;
+      grund.push(p.region || LAENDER[q.land]);
+      punkte += 1;
+    }
+  }
+  if (q.wer) {
+    if (p.foerderberechtigte.length && !p.foerderberechtigte.includes(q.wer)) return null;
+    if (p.foerderberechtigte.includes(q.wer)) grund.push(WER[q.wer]);
+  }
+  if (q.sparten.length) {
+    const t = q.sparten.filter(s => p.sparten.includes(s));
+    if (t.length) { punkte += 4; grund.push(...t.map(s => SPARTEN[s])); }
+    else if (p.sparten.includes("spartenuebergreifend") || !p.sparten.length) { punkte += 1; grund.push("spartenübergreifend"); }
+    else return null;
+  }
+  if (q.arten.length) {
+    const t = q.arten.filter(a => p.projektarten.includes(a));
+    if (t.length) { punkte += 3 + Math.min(t.length - 1, 2); grund.push(...t.map(a => ARTEN[a])); }
+    else punkte -= 3;
+  }
+  if (q.schwer.length) {
+    const t = q.schwer.filter(s => p.schwerpunkte.includes(s));
+    punkte += 2 * t.length; grund.push(...t.map(s => SCHWER[s]));
+  }
+  if (q.bmin != null || q.bmax != null) {
+    if (p.summe_min != null && q.bmax != null && p.summe_min > q.bmax) return null;
+    if (p.summe_max != null && q.bmin != null && p.summe_max < q.bmin) punkte -= 3;
+  }
+  if (q.worte.length) {
+    const text = (p.name + " " + p.foerdergeber + " " + p.kurzbeschreibung + " " + (p.hinweise || "") + " " + g.beschreibung).toLowerCase();
+    const t = q.worte.filter(w => text.includes(w));
+    if (!t.length) return null;
+    punkte += 2 * t.length; grund.push(...t.map(w => `„${w}“`));
+  }
+  const f = naechsteFrist(p);
+  if (f) { const tage = (new Date(f.datum) - heute) / 864e5; if (tage <= 120) punkte += 0.5; }
+  if (p.ruht) punkte -= 5;
+  return { p, punkte, grund: [...new Set(grund)], frist: f };
+}
+
+function stempel(t) {
+  const p = t.p, s = el("div", "stempel");
+  if (p.ruht) { s.classList.add("grau"); s.append(el("span","k","Derzeit"), el("span","d","keine Runde")); return s; }
+  if (t.frist) {
+    const tage = Math.round((new Date(t.frist.datum) - heute) / 864e5);
+    if (t.frist.voraussichtlich) s.classList.add("vor");
+    s.append(el("span","k", t.frist.art === "interessenbekundung" ? "Interesse bis" : t.frist.voraussichtlich ? "voraussichtl. bis" : "Eingang bis"),
+             el("span","d", fmtDatum(t.frist.datum)),
+             el("span","t", tage === 0 ? "heute" : tage === 1 ? "morgen" : `noch ${tage} Tage`));
+    if (tage > 30) s.classList.add("ruhig");
+    return s;
+  }
+  if (p.frist_rhythmus === "laufend") { s.classList.add("ruhig"); s.append(el("span","k","Antrag"), el("span","d","jederzeit")); return s; }
+  s.classList.add("grau"); s.append(el("span","k","Frist"), el("span","d","beim Fördergeber"));
+  return s;
+}
+
+function karte(t) {
+  const p = t.p;
+  const a = el("article", "prog" + (p.ruht ? " ruht" : ""));
+  const kopf = el("div", "prog-kopf"), titel = el("div", "prog-titel");
+  const geber = el("div", "geber");
+  geber.append(el("span", "ebene", EBENE_KURZ[p.ebene] || p.ebene), el("span", null, p.foerdergeber));
+  titel.append(geber, el("h3", null, p.name));
+  kopf.append(titel, stempel(t));
+  a.append(kopf);
+
+  const fakten = el("div", "fakten");
+  const add = (k, v) => { const s = el("span"); s.append(k + " "); s.append(el("b", null, v)); fakten.append(s); };
+  add("Art:", ART[p.foerderart] || p.foerderart);
+  if (p.summe_max != null && p.summe_min != null) add("Summe:", `${fmtEuro(p.summe_min)} bis ${fmtEuro(p.summe_max)}`);
+  else if (p.summe_max != null) add("Summe:", `bis ${fmtEuro(p.summe_max)}`);
+  else if (p.summe_min != null) add("Summe:", `ab ${fmtEuro(p.summe_min)}`);
+  if (p.gebiet.typ !== "bundesweit" && p.gebiet.typ !== "eu_weit") add("Gebiet:", p.region || p.gebiet.beschreibung);
+  if (!t.frist && !p.ruht) add("Rhythmus:", RHYTHMUS[p.frist_rhythmus] || "");
+  a.append(fakten);
+  a.append(el("p", "kurz", p.kurzbeschreibung));
+
+  if (t.grund.length) {
+    const w = el("div", "warum"); w.append("Passt wegen ");
+    t.grund.slice(0, 6).forEach((g, i) => { if (i) w.append(" "); w.append(el("em", null, g)); });
+    a.append(w);
+  }
+
+  const d = el("details", "mehr"); d.append(el("summary", null, "Worauf achten"));
+  const dl = el("dl");
+  const zeile = (k, v) => { if (!v) return; dl.append(el("dt", null, k), el("dd", null, v)); };
+  zeile("Hinweise", p.hinweise);
+  zeile("Eigenanteil", p.eigenanteil);
+  zeile("Antragsberechtigt", p.foerderberechtigte.map(x => WER[x] || x).join(", "));
+  zeile("Gebiet", p.gebiet.beschreibung);
+  if (p.fristen.length) zeile("Fristen", p.fristen.map(f => fmtDatum(f.datum) + (f.hinweis ? ` (${f.hinweis})` : "")).join("; "));
+  if (p.richtlinie_url) { dl.append(el("dt", null, "Richtlinie")); const dd = el("dd"); const l = el("a", null, "Richtlinie öffnen"); l.href = p.richtlinie_url; l.target = "_blank"; l.rel = "noopener"; dd.append(l); dl.append(dd); }
+  d.append(dl); a.append(d);
+
+  const fuss = el("div", "fuss");
+  const link = el("a", null, "Zur Ausschreibung ↗"); link.href = p.url; link.target = "_blank"; link.rel = "noopener";
+  const info = el("span", null, `geprüft am ${fmtDatum(p.zuletzt_geprueft)}`);
+  if (p.unsicher && p.unsicher.length) { info.append(" · "); info.append(el("span", "unsicher", "einzelne Angaben unbestätigt")); }
+  fuss.append(link, info);
+  a.append(fuss);
+  return a;
+}
+
+function update(keepSichtbar) {
+  const q = frage();
+  if (!keepSichtbar) sichtbar = 30;
+  speichern(q);
+  const treffer = ALLE.map(p => bewerte(p, q)).filter(Boolean);
+  const zaehl = { alle: treffer.length };
+  treffer.forEach(t => zaehl[t.p.ebene] = (zaehl[t.p.ebene] || 0) + 1);
+  zeichneEbenen(zaehl);
+  let liste = ebeneFilter === "alle" ? treffer : treffer.filter(t => t.p.ebene === ebeneFilter);
+  const fristKey = t => t.frist ? t.frist.datum : (t.p.frist_rhythmus === "laufend" ? "9998" : "9999");
+  const sort = $("sortierung").value;
+  liste.sort((a, b) =>
+    sort === "frist" ? fristKey(a).localeCompare(fristKey(b)) :
+    sort === "summe" ? (b.p.summe_max || 0) - (a.p.summe_max || 0) :
+    (b.punkte - a.punkte) || fristKey(a).localeCompare(fristKey(b)));
+
+  const leer = !q.land && !q.wer && !q.sparten.length && !q.arten.length && !q.schwer.length && !q.worte.length && q.bmin == null && q.bmax == null;
+  $("anzahl").textContent = liste.length;
+  $("treffer-text").textContent = leer ? (liste.length === 1 ? "Programm insgesamt" : "Programme insgesamt") : (liste.length === 1 ? "passendes Programm" : "passende Programme");
+  $("springen").textContent = leer ? "Programme ansehen" : `${liste.length} passende Programme ansehen`;
+
+  const box = $("liste"); box.replaceChildren();
+  if (!liste.length) {
+    const l = el("div", "leer", "Dazu passt gerade nichts. Nimm eine Angabe zurück, zum Beispiel die Fördersumme oder ein Stichwort, oder zeig auch Programme ohne laufende Ausschreibung.");
+    box.append(l); return;
+  }
+  liste.slice(0, sichtbar).forEach(t => box.append(karte(t)));
+  if (liste.length > sichtbar) {
+    const b = el("button", "mehr-laden", `Weitere ${Math.min(30, liste.length - sichtbar)} von ${liste.length - sichtbar} anzeigen`);
+    b.type = "button"; b.addEventListener("click", () => { sichtbar += 30; update(true); });
+    box.append(b);
+  }
+}
+
+function zeichneEbenen(zaehl) {
+  const box = $("ebenen"); box.replaceChildren();
+  for (const [k, v] of EBENEN) {
+    if (k !== "alle" && !zaehl[k]) continue;
+    const b = el("button"); b.type = "button"; b.setAttribute("aria-pressed", String(ebeneFilter === k));
+    b.append(v, el("span", "n", String(zaehl[k] || 0)));
+    b.addEventListener("click", () => { ebeneFilter = k; update(); });
+    box.append(b);
+  }
+  if (ebeneFilter !== "alle" && !zaehl[ebeneFilter]) { ebeneFilter = "alle"; }
+}
+
+function regionenFuer(land) {
+  const sel = $("region"), alt = sel.value;
+  sel.replaceChildren(new Option("Alle Regionen des Landes", ""));
+  const regs = [...new Set(ALLE.filter(p => p.region && p.gebiet.laender.includes(land)).map(p => p.region))].sort((a,b) => a.localeCompare(b, "de"));
+  regs.forEach(r => sel.append(new Option(r, r)));
+  sel.hidden = !regs.length;
+  if (regs.includes(alt)) sel.value = alt;
+}
+
+function speichern(q) {
+  if (!$("merken").checked) { try { localStorage.removeItem(SPEICHER); } catch (e) {} return; }
+  try { localStorage.setItem(SPEICHER, JSON.stringify({ land: q.land, region: q.region, wer: q.wer, sparten: q.sparten, arten: q.arten, schwer: q.schwer, budget: $("budget").value, worte: $("worte").value, ruhende: q.ruhende })); } catch (e) {}
+}
+function laden() {
+  let s = null; try { s = JSON.parse(localStorage.getItem(SPEICHER) || "null"); } catch (e) {}
+  if (!s) return;
+  $("merken").checked = true;
+  $("land").value = s.land || ""; regionenFuer(s.land || ""); $("region").value = s.region || "";
+  const setze = (n, vals) => (vals || []).forEach(v => { const i = $(`${n}-${v}`); if (i) i.checked = true; });
+  setze("wer", s.wer ? [s.wer] : []); setze("sparten", s.sparten); setze("arten", s.arten); setze("schwerpunkte", s.schwer);
+  $("budget").value = s.budget || ""; $("worte").value = s.worte || ""; $("ruhende").checked = !!s.ruhende;
+}
+
+function start(daten) {
+  ALLE = daten.programme;
+  $("stand").textContent = `Stand ${fmtDatum(daten.stand)} · ohne Gewähr`;
+  $("z-programme").textContent = ALLE.length;
+  $("z-fristen").textContent = ALLE.filter(p => { const f = naechsteFrist(p); return f && (new Date(f.datum) - heute) / 864e5 <= 30; }).length;
+  $("z-geber").textContent = new Set(ALLE.map(p => p.foerdergeber)).size;
+  for (const [k, v] of Object.entries(LAENDER)) $("land").append(new Option(v, k));
+  chips($("wer"), WER, "wer", "radio");
+  chips($("sparten"), SPARTEN, "sparten", "checkbox");
+  chips($("arten"), ARTEN, "arten", "checkbox");
+  chips($("schwerpunkte"), SCHWER, "schwerpunkte", "checkbox");
+  laden();
+  document.querySelectorAll('input[name="wer"]').forEach(i => i.addEventListener("pointerdown", () => { i.dataset.war = i.checked ? "1" : ""; }));
+  $("bogen").addEventListener("input", e => { if (e.target.id === "land") regionenFuer($("land").value); update(); });
+  $("bogen").addEventListener("submit", e => e.preventDefault());
+  $("sortierung").addEventListener("change", () => update());
+  $("ruhende").addEventListener("change", () => update());
+  $("leeren").addEventListener("click", () => { $("bogen").reset(); $("region").hidden = true; ebeneFilter = "alle"; update(); });
+  update();
+}
+
+// Hell/Dunkel: Auto folgt dem System, die Wahl merkt sich der Browser
+const THEMA = "kulturtoepfe-thema";
+function setzeThema(t) {
+  if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  else document.documentElement.removeAttribute("data-theme");
+  document.querySelectorAll(".thema button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.thema === t)));
+}
+let gemerkt = "auto"; try { gemerkt = localStorage.getItem(THEMA) || "auto"; } catch (e) {}
+setzeThema(gemerkt);
+document.querySelectorAll(".thema button").forEach(b => b.addEventListener("click", () => {
+  setzeThema(b.dataset.thema);
+  try { b.dataset.thema === "auto" ? localStorage.removeItem(THEMA) : localStorage.setItem(THEMA, b.dataset.thema); } catch (e) {}
+}));
+
+fetch("programme.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(start).catch(() => {
+  $("liste").replaceChildren(el("div", "leer", "Die Programmliste konnte nicht geladen werden. Lade die Seite bitte neu."));
+});
+})();
+</script>
+<script data-goatcounter="https://kulturtoepfe.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

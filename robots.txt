@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kulturtoepfe.de/sitemap.xml
