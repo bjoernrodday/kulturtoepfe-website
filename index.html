@@ -24,16 +24,23 @@
 <style>
 /* Layout: links ein Antragsbogen (sticky am Desktop), rechts die Trefferliste; am Handy untereinander. Fristen als Eingangsstempel. */
 :root {
-  --paper: #f3f2f0;
+  --paper: #f4f2ee;
   --surface: #ffffff;
-  --ink: #221f1c;
-  --muted: #655f59;
-  --line: #dcd7d1;
-  --accent: #b04f0c;
-  --accent-soft: #f8e3d2;
-  --stamp: #b5093f;
-  --stamp-soft: #fbe5eb;
-  --calm: #2f6b4f;
+  --ink: #252525;
+  --muted: #65615c;
+  --line: #d4cfc7;
+  --accent: #a6531f;
+  --accent-soft: #f6e8dc;
+  --slate: #365561;
+  --slate-soft: #eaf0f2;
+  --stamp: #963d45;
+  --stamp-soft: #f6e8ea;
+  --calm: #275f59;
+  --st-fest: #88451f; --st-fest-f: #f6e8dc; --st-fest-r: #bd7b4b;
+  --st-eil: #963d45; --st-eil-f: #f6e8ea; --st-eil-r: #bc7681;
+  --st-vor: #755b46; --st-vor-f: #f1ece5; --st-vor-r: #b19a83;
+  --st-jed: #275f59; --st-jed-f: #e5f0eb; --st-jed-r: #7fa69c;
+  --st-grau: #495662; --st-grau-f: #ebeef0; --st-grau-r: #9aa5ad;
   --font-display: "Figtree", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -41,14 +48,26 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #14120f; --surface: #1d1a16; --ink: #eeebe7; --muted: #a8a199; --line: #37312b;
-    --accent: #ea8440; --accent-soft: #3d2312; --stamp: #ff5c86; --stamp-soft: #3e1424; --calm: #7fcaa5;
+    --paper: #1d1e1c; --surface: #272825; --ink: #eae7e2; --muted: #b9b4ac; --line: #494b44;
+    --accent: #e7ac7d; --accent-soft: #37291f; --slate: #a8c4d0; --slate-soft: #26343c;
+    --stamp: #e6abb4; --stamp-soft: #3e272d; --calm: #9ccdc0;
+    --st-fest: #e7ac7d; --st-fest-f: #37291f; --st-fest-r: #b47a4d;
+    --st-eil: #e6abb4; --st-eil-f: #3e272d; --st-eil-r: #b77d88;
+    --st-vor: #ccb8a4; --st-vor-f: #2d2823; --st-vor-r: #8e7b68;
+    --st-jed: #9ccdc0; --st-jed-f: #1d302d; --st-jed-r: #5b8b7e;
+    --st-grau: #b5c0ca; --st-grau-f: #272e34; --st-grau-r: #74818d;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #14120f; --surface: #1d1a16; --ink: #eeebe7; --muted: #a8a199; --line: #37312b;
-  --accent: #ea8440; --accent-soft: #3d2312; --stamp: #ff5c86; --stamp-soft: #3e1424; --calm: #7fcaa5;
+  --paper: #1d1e1c; --surface: #272825; --ink: #eae7e2; --muted: #b9b4ac; --line: #494b44;
+  --accent: #e7ac7d; --accent-soft: #37291f; --slate: #a8c4d0; --slate-soft: #26343c;
+  --stamp: #e6abb4; --stamp-soft: #3e272d; --calm: #9ccdc0;
+  --st-fest: #e7ac7d; --st-fest-f: #37291f; --st-fest-r: #b47a4d;
+  --st-eil: #e6abb4; --st-eil-f: #3e272d; --st-eil-r: #b77d88;
+  --st-vor: #ccb8a4; --st-vor-f: #2d2823; --st-vor-r: #8e7b68;
+  --st-jed: #9ccdc0; --st-jed-f: #1d302d; --st-jed-r: #5b8b7e;
+  --st-grau: #b5c0ca; --st-grau-f: #272e34; --st-grau-r: #74818d;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -88,6 +107,7 @@ h1.wort span { color: var(--accent); }
 dl.zahlen { display: flex; gap: 28px; margin: 0; }
 dl.zahlen div { display: flex; flex-direction: column-reverse; gap: 2px; }
 dl.zahlen dd { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem, 3.6vw, 2.8rem); line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+dl.zahlen dd { color: var(--slate); }
 dl.zahlen dt { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
 
 /* Raster */
@@ -102,11 +122,11 @@ form.bogen {
 }
 @media (max-width: 860px) { form.bogen { position: static; max-height: none; } }
 .bogen-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.bogen-kopf h2 { font-family: var(--font-display); font-size: 1.15rem; margin: 0; }
+.bogen-kopf h2 { font-family: var(--font-display); font-size: 1.15rem; margin: 0; color: var(--slate); }
 button.link { background: none; border: 0; color: var(--accent); font: inherit; font-size: 0.9rem; cursor: pointer; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
 fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; min-width: 0; }
 legend { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 0; margin-bottom: 8px; display: flex; gap: 8px; }
-legend .nr { color: var(--accent); }
+legend .nr { color: var(--slate); font-weight: 500; }
 legend .opt { text-transform: none; letter-spacing: 0; }
 select, input[type="search"] {
   width: 100%; font: inherit; font-size: 0.97rem; color: var(--ink); background: var(--paper);
@@ -126,8 +146,8 @@ select, input[type="search"] {
 /* Ergebnisse */
 .ergebnis-kopf { display: grid; gap: 12px; margin-bottom: 16px; }
 .zeile { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 16px; }
-.ergebnis-kopf h2 { font-family: var(--font-display); font-size: clamp(1.25rem, 2.4vw, 1.6rem); margin: 0; text-wrap: balance; }
-.ergebnis-kopf h2 .zahl { font-variant-numeric: tabular-nums; color: var(--accent); }
+.ergebnis-kopf h2 { font-family: var(--font-display); font-size: clamp(1.25rem, 2.4vw, 1.6rem); margin: 0; text-wrap: balance; color: var(--slate); }
+.ergebnis-kopf h2 .zahl { font-variant-numeric: tabular-nums; color: var(--slate); }
 .sort { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; color: var(--muted); }
 .sort select { width: auto; padding: 6px 8px; }
 .ebenen { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -135,7 +155,7 @@ select, input[type="search"] {
   font: inherit; font-size: 0.86rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
   border-radius: 999px; padding: 4px 11px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline;
 }
-.ebenen button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+.ebenen button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--surface); }
 .ebenen .n { font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.75; }
 label.schalter { display: inline-flex; gap: 8px; align-items: center; font-size: 0.88rem; color: var(--muted); cursor: pointer; }
 
@@ -150,28 +170,29 @@ article.prog.ruht { opacity: 0.78; }
 .geber { font-size: 0.86rem; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; }
 .ebene {
   font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
-  border: 1px solid currentColor; border-radius: 3px; padding: 1px 6px; color: var(--accent);
+  border: 1px solid currentColor; border-radius: 3px; padding: 1px 6px; color: var(--slate);
 }
 .prog h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; line-height: 1.25; margin: 0; text-wrap: balance; overflow-wrap: anywhere; }
 
 /* Eingangsstempel */
 .stempel {
-  flex: none; font-family: var(--font-mono); text-align: center; color: var(--stamp);
-  border: 1.5px solid var(--stamp); border-radius: 4px; padding: 4px 8px 5px; transform: rotate(-2.5deg);
-  background: var(--stamp-soft); min-width: 7.6rem;
+  flex: none; font-family: var(--font-mono); text-align: center; color: var(--st-fest);
+  border: 1.5px solid var(--st-fest-r); border-radius: 4px; padding: 4px 8px 5px; transform: rotate(-2.5deg);
+  background: var(--st-fest-f); min-width: 7.6rem;
 }
+.stempel.eil { color: var(--st-eil); border-color: var(--st-eil-r); background: var(--st-eil-f); }
 .stempel .k { display: block; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; }
 .stempel .d { display: block; font-size: 0.95rem; font-weight: 500; font-variant-numeric: tabular-nums; }
 .stempel .t { display: block; font-size: 0.66rem; }
-.stempel.ruhig { color: var(--calm); border-color: var(--calm); background: transparent; }
-.stempel.grau { color: var(--muted); border-color: var(--line); background: transparent; transform: none; }
-.stempel.vor { border-style: dashed; }
+.stempel.ruhig { color: var(--st-jed); border-color: var(--st-jed-r); background: var(--st-jed-f); }
+.stempel.grau { color: var(--st-grau); border-color: var(--st-grau-r); background: var(--st-grau-f); transform: none; }
+.stempel.vor { color: var(--st-vor); border-color: var(--st-vor-r); background: var(--st-vor-f); border-style: dashed; }
 
 .fakten { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.88rem; color: var(--muted); }
 .fakten b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 .prog p.kurz { margin: 0; max-width: 72ch; }
 .warum { font-size: 0.84rem; color: var(--muted); }
-.warum em { font-style: normal; color: var(--ink); background: var(--accent-soft); border-radius: 3px; padding: 0 4px; }
+.warum em { font-style: normal; color: var(--ink); background: var(--slate-soft); border-radius: 3px; padding: 0 4px; }
 details.mehr summary { cursor: pointer; font-size: 0.9rem; color: var(--accent); width: fit-content; }
 details.mehr dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; margin: 10px 0 0; font-size: 0.9rem; }
 details.mehr dt { color: var(--muted); }
@@ -371,7 +392,7 @@ body.merk-offen { overflow: hidden; }
 <nav class="stoebern" aria-labelledby="stoebern-titel">
 <style>
 .stoebern { max-width: 1120px; margin: 56px auto 0; padding: 24px 0 0; border-top: 1px solid var(--line); }
-.stoebern h2 { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em; margin: 0 0 4px; }
+.stoebern h2 { color: var(--slate); font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em; margin: 0 0 4px; }
 .stoebern > p { color: var(--muted); margin: 0 0 18px; }
 .stoebern .spalten { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .stoebern h3 { font-family: var(--font-mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); font-weight: 500; margin: 0 0 8px; }
@@ -562,7 +583,7 @@ function stempel(t) {
     s.append(el("span","k", t.frist.art === "interessenbekundung" ? "Interesse bis" : t.frist.voraussichtlich ? "voraussichtl. bis" : "Eingang bis"),
              el("span","d", fmtDatum(t.frist.datum)),
              el("span","t", tage === 0 ? "heute" : tage === 1 ? "morgen" : `noch ${tage} Tage`));
-    if (tage > 30) s.classList.add("ruhig");
+    if (!t.frist.voraussichtlich && tage <= 7) s.classList.add("eil");
     return s;
   }
   if (p.frist_rhythmus === "laufend") { s.classList.add("ruhig"); s.append(el("span","k","Antrag"), el("span","d","jederzeit")); return s; }
