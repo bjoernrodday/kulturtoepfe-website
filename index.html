@@ -185,7 +185,7 @@ article.prog.ruht { opacity: 0.78; }
 .stempel .d { display: block; font-size: 0.95rem; font-weight: 500; font-variant-numeric: tabular-nums; }
 .stempel .t { display: block; font-size: 0.66rem; }
 .stempel.ruhig { color: var(--st-jed); border-color: var(--st-jed-r); background: var(--st-jed-f); }
-.stempel.grau { color: var(--st-grau); border-color: var(--st-grau-r); background: var(--st-grau-f); transform: none; }
+.stempel.grau { color: var(--st-grau); border-color: var(--st-grau-r); background: var(--st-grau-f); }
 .stempel.vor { color: var(--st-vor); border-color: var(--st-vor-r); background: var(--st-vor-f); border-style: dashed; }
 
 .fakten { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.88rem; color: var(--muted); }
@@ -603,7 +603,7 @@ function stempel(t) {
     return s;
   }
   if (p.frist_rhythmus === "laufend") { s.classList.add("ruhig"); s.append(el("span","k","Antrag"), el("span","d","jederzeit")); return s; }
-  s.classList.add("grau"); s.append(el("span","k","Frist"), el("span","d","beim Fördergeber"));
+  s.classList.add("grau"); s.title = "Keine Frist veröffentlicht – bitte beim Fördergeber nachfragen"; s.append(el("span","k","Frist"), el("span","d","nicht bekannt"));
   return s;
 }
 
@@ -634,7 +634,7 @@ function fristText(p) {
   if (p.ruht) return "derzeit keine Ausschreibung";
   const f = naechsteFrist(p);
   if (f) return fmtDatum(f.datum) + (f.voraussichtlich ? " (voraussichtlich, noch nicht bestätigt)" : "") + (f.hinweis ? ` – ${f.hinweis}` : "");
-  return p.frist_rhythmus === "laufend" ? "Antrag jederzeit" : "beim Fördergeber erfragen";
+  return p.frist_rhythmus === "laufend" ? "Antrag jederzeit" : "nicht bekannt – beim Fördergeber nachfragen";
 }
 const MERK_ZEILEN = [
   ["Frist", fristText], ["Fördersumme", summeText], ["Förderart", p => ART[p.foerderart] || p.foerderart],

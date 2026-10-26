@@ -68,7 +68,7 @@ dl.fakten dd { margin: 0; }
 .stempel .d { display: block; font-size: .9rem; font-weight: 500; font-variant-numeric: tabular-nums; }
 .stempel.eil { color: var(--st-eil); border-color: var(--st-eil-r); background: var(--st-eil-f); }
 .stempel.ruhig { color: var(--st-jed); border-color: var(--st-jed-r); background: var(--st-jed-f); }
-.stempel.grau { color: var(--st-grau); border-color: var(--st-grau-r); background: var(--st-grau-f); transform: none; }
+.stempel.grau { color: var(--st-grau); border-color: var(--st-grau-r); background: var(--st-grau-f); }
 .stempel.vor { color: var(--st-vor); border-color: var(--st-vor-r); background: var(--st-vor-f); border-style: dashed; }
 .weiter { margin-top: 32px; font-size: .92rem; }
 .merken { font: inherit; font-size: .92rem; font-weight: 600; color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 999px; padding: 8px 14px; cursor: pointer; margin-right: 10px; vertical-align: middle; }
