@@ -198,9 +198,61 @@ footer.seite p { margin: 0; max-width: 80ch; }
     padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
     background: var(--paper); border-top: 1px solid var(--line);
   }
+  .springen { gap: 8px; }
+  .springen:has(#springen-merk:not([hidden])) { display: flex; }
+  .springen a { flex: 1; }
+  #springen-merk { font: inherit; font-weight: 700; color: var(--accent); background: var(--surface); border: 1px solid var(--accent); border-radius: var(--r); padding: 10px 14px; }
   .springen a { display: block; text-align: center; background: var(--accent); color: var(--surface); border-radius: var(--r); padding: 10px; text-decoration: none; font-weight: 700; }
   footer.seite { padding-bottom: 96px; }
 }
+/* Merkliste */
+.merk-btn { font: inherit; font-size: 0.82rem; font-weight: 600; color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 999px; padding: 3px 12px; cursor: pointer; }
+.merk-btn[aria-pressed="true"] { background: var(--accent-soft); }
+.merk-btn[aria-pressed="true"]::before { content: "✓ "; }
+.merk-auf { font: inherit; font-size: 0.86rem; font-weight: 700; color: var(--surface); background: var(--accent); border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.merk-auf .n { font-family: var(--font-mono); font-weight: 500; margin-left: 4px; }
+.kopf-rechts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+body.merk-offen { overflow: hidden; }
+.merk { position: fixed; inset: 0; z-index: 20; background: var(--paper); overflow: auto; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
+.merk-innen { max-width: 1280px; margin: 0 auto; }
+.merk-kopf { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; padding-block: 16px; border-bottom: 1px solid var(--line); }
+.merk-kopf h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: -0.03em; margin: 0; }
+.merk-kopf h2 span { color: var(--accent); }
+.merk-kopf .stand { font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.merk-aktionen { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0 20px; }
+.merk-aktionen button { font: inherit; font-size: 0.88rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.merk-aktionen button.haupt { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 700; }
+.merk-aktionen .meldung { font-size: 0.84rem; color: var(--calm); }
+.merk-zu { font: inherit; font-size: 0.9rem; background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer; color: var(--ink); }
+.merk-scroll { overflow-x: auto; padding-bottom: 8px; }
+.merk-raster { display: grid; grid-template-columns: repeat(var(--n, 1), minmax(240px, 1fr)); column-gap: 16px; }
+.merk-spalte { display: grid; grid-row: span var(--zr, 12); grid-template-rows: subgrid; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 0 16px; }
+.merk-spalte > * { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.merk-spalte > *:last-child { border-bottom: 0; }
+.merk-zelle .lab { display: block; font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 2px; }
+.merk-zelle div { font-size: 0.9rem; line-height: 1.45; }
+.merk-zelle.ohne div { color: var(--muted); }
+.merk-zelle.warn div { color: var(--stamp); }
+.merk-name .geber { font-size: 0.8rem; color: var(--muted); }
+.merk-name h3 { font-family: var(--font-display); font-size: 1.08rem; line-height: 1.2; margin: 4px 0 6px; }
+.merk-name h3 a { color: var(--ink); }
+.merk-raus { font: inherit; font-size: 0.78rem; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+.merk-fuss a { font-weight: 700; font-size: 0.9rem; }
+.merk-hinweis { font-size: 0.82rem; color: var(--muted); margin-top: 20px; max-width: 80ch; }
+@media (max-width: 760px) {
+  .merk-raster { grid-template-columns: 1fr; row-gap: 16px; }
+  .merk-spalte { display: block; grid-row: auto; }
+}
+@media print {
+  body.merk-offen > .wrap, body.merk-offen > .springen { display: none !important; }
+  body.merk-offen { overflow: visible; }
+  .merk { position: static; overflow: visible; padding: 0; background: #fff; color: #000; }
+  .merk-aktionen, .merk-zu, .merk-raus { display: none !important; }
+  .merk-scroll { overflow: visible; }
+  .merk-raster { grid-template-columns: repeat(var(--n, 1), 1fr); column-gap: 8px; }
+  .merk-spalte { border-color: #999; break-inside: avoid; }
+}
+
 @media (prefers-reduced-motion: no-preference) { article.prog { animation: auf 0.25s ease-out both; } }
 @keyframes auf { from { transform: translateY(4px); } to { transform: none; } }
 </style>
@@ -221,7 +273,7 @@ footer.seite p { margin: 0; max-width: 80ch; }
     <h1 class="wort">Kultur<span>töpfe</span></h1>
     <div class="unter">
       <div>
-        <p class="lede">Förderprogramme für Kulturprojekte, von den Ländern und Regionen über Bund und EU bis zu Stiftungen. Beschreib dein Vorhaben, und die Liste zeigt, was dazu passt. Kommunale Förderung von Städten und Landkreisen ist noch nicht enthalten.</p>
+        <p class="lede">Förderprogramme für Kulturprojekte, von den Ländern und Regionen über Bund und EU bis zu Stiftungen. Beschreib dein Vorhaben, und die Liste zeigt, was dazu passt.</p>
         <p class="von">Ein Projekt von Björn Rodday · <a href="https://www.instagram.com/bjoern_rodday/" target="_blank" rel="noopener">@bjoern_rodday</a> · Deine Angaben bleiben in deinem Browser.</p>
       </div>
       <dl class="zahlen">
@@ -294,6 +346,8 @@ footer.seite p { margin: 0; max-width: 80ch; }
       <div class="ergebnis-kopf">
         <div class="zeile">
           <h2 id="treffer-titel"><span class="zahl" id="anzahl">0</span> <span id="treffer-text">Programme</span></h2>
+          <div class="kopf-rechts">
+          <button type="button" class="merk-auf" id="merk-auf" hidden>Merkliste<span class="n" id="merk-zahl">0</span></button>
           <label class="sort" for="sortierung">Sortieren
             <select id="sortierung">
               <option value="passung">nach Passung</option>
@@ -301,6 +355,7 @@ footer.seite p { margin: 0; max-width: 80ch; }
               <option value="summe">nach Höchstsumme</option>
             </select>
           </label>
+          </div>
         </div>
         <div class="zeile">
           <div class="ebenen" id="ebenen" role="group" aria-label="Nach Ebene filtern"></div>
@@ -342,7 +397,29 @@ footer.seite p { margin: 0; max-width: 80ch; }
     <p>Weitere Projekte von Björn Rodday: <a href="https://kulturzettel-bayreuth.de/" target="_blank" rel="noopener">Kulturzettel</a> – Kulturtermine in Bayreuth</p>
   </footer>
 </div>
-<div class="springen"><a href="#ergebnisse" id="springen">Passende Programme ansehen</a></div>
+<div class="springen"><a href="#ergebnisse" id="springen">Passende Programme ansehen</a><button type="button" id="springen-merk" hidden>Merkliste</button></div>
+
+<div class="merk" id="merk" hidden role="dialog" aria-modal="true" aria-labelledby="merk-titel">
+  <div class="merk-innen">
+    <div class="merk-kopf">
+      <div>
+        <h2 id="merk-titel">Merk<span>liste</span></h2>
+        <span class="stand" id="merk-stand"></span>
+      </div>
+      <button type="button" class="merk-zu" id="merk-zu">Schließen</button>
+    </div>
+    <div class="merk-aktionen">
+      <button type="button" class="haupt" id="merk-drucken">Drucken oder als PDF sichern</button>
+      <button type="button" id="merk-text">Als Text kopieren</button>
+      <button type="button" id="merk-link">Link teilen</button>
+      <button type="button" id="merk-uebernehmen" hidden>In meine Merkliste übernehmen</button>
+      <button type="button" id="merk-leeren">Liste leeren</button>
+      <span class="meldung" id="merk-meldung" aria-live="polite"></span>
+    </div>
+    <div class="merk-scroll"><div class="merk-raster" id="merk-raster"></div></div>
+    <p class="merk-hinweis">Ohne Gewähr. Maßgeblich sind allein die Ausschreibungen und Richtlinien der Fördergeber. „Bitte prüfen“ bezieht sich auf die Angaben im Fragebogen. Die Merkliste liegt nur in diesem Browser; der geteilte Link enthält nur die Programmkennungen.</p>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -499,6 +576,119 @@ const FELD = { summe_min: "Fördersumme", summe_max: "Fördersumme", foerderbere
   hinweise: "Hinweise", schwerpunkte: "Schwerpunkte", name: "Name", foerdergeber: "Fördergeber", foerderart: "Förderart" };
 function unbestaetigt(p) { return [...new Set((p.unsicher || []).map(f => FELD[f] || f))]; }
 
+// Merkliste: nur im lokalen Speicher dieses Browsers, kein Cookie
+const MERK = "kulturtoepfe-merkliste";
+let merk = []; try { const m = JSON.parse(localStorage.getItem(MERK) || "[]"); if (Array.isArray(m)) merk = m.filter(x => typeof x === "string"); } catch (e) {}
+let merkAnsicht = null, merkGeteilt = false, merkFokus = null;
+function merkSpeichern() { try { merk.length ? localStorage.setItem(MERK, JSON.stringify(merk)) : localStorage.removeItem(MERK); } catch (e) {} merkZaehler(); }
+function merkUmschalten(id) { merk = merk.includes(id) ? merk.filter(x => x !== id) : [...merk, id]; merkSpeichern(); }
+function merkZaehler() {
+  const n = merk.filter(id => ALLE.some(p => p.id === id)).length;
+  $("merk-zahl").textContent = n; $("merk-auf").hidden = !n;
+  $("springen-merk").hidden = !n; $("springen-merk").textContent = `Merkliste (${n})`;
+}
+function summeText(p) {
+  if (p.summe_max != null && p.summe_min != null) return `${fmtEuro(p.summe_min)} bis ${fmtEuro(p.summe_max)}`;
+  if (p.summe_max != null) return `bis ${fmtEuro(p.summe_max)}`;
+  if (p.summe_min != null) return `ab ${fmtEuro(p.summe_min)}`;
+  return "";
+}
+function fristText(p) {
+  if (p.ruht) return "derzeit keine Ausschreibung";
+  const f = naechsteFrist(p);
+  if (f) return fmtDatum(f.datum) + (f.voraussichtlich ? " (voraussichtlich, noch nicht bestätigt)" : "") + (f.hinweis ? ` – ${f.hinweis}` : "");
+  return p.frist_rhythmus === "laufend" ? "Antrag jederzeit" : "beim Fördergeber erfragen";
+}
+const MERK_ZEILEN = [
+  ["Frist", fristText], ["Fördersumme", summeText], ["Förderart", p => ART[p.foerderart] || p.foerderart],
+  ["Eigenanteil", p => p.eigenanteil || ""], ["Antragsberechtigt", p => p.foerderberechtigte.map(x => WER[x] || x).join(", ")],
+  ["Gebiet", p => p.region || p.gebiet.beschreibung], ["Bitte prüfen", p => ((bewerte(p, frage()) || {}).pruefen || []).join(" · ")],
+  ["Worauf achten", p => p.hinweise || ""], ["Unbestätigt", p => unbestaetigt(p).join(", ")],
+];
+function merkZeichnen() {
+  const progs = merkAnsicht.map(id => ALLE.find(p => p.id === id)).filter(Boolean);
+  const r = $("merk-raster"); r.replaceChildren();
+  r.style.setProperty("--n", Math.max(progs.length, 1)); r.style.setProperty("--zr", MERK_ZEILEN.length + 2);
+  $("merk-stand").textContent = `${progs.length} ${progs.length === 1 ? "Programm" : "Programme"} · ${$("stand").textContent.replace(/^Stand /, "Stand ")}`;
+  $("merk-uebernehmen").hidden = !merkGeteilt || progs.every(p => merk.includes(p.id));
+  $("merk-leeren").hidden = merkGeteilt || !progs.length;
+  ["merk-drucken", "merk-text", "merk-link"].forEach(id => $(id).disabled = !progs.length);
+  if (!progs.length) { r.append(el("p", "merk-hinweis", "Die Merkliste ist leer. Mit „Merken“ an einem Programm legst du es hier ab.")); return; }
+  for (const p of progs) {
+    const sp = el("div", "merk-spalte");
+    const kopf = el("div", "merk-name");
+    kopf.append(el("div", "geber", `${EBENE_KURZ[p.ebene] || ""} · ${p.foerdergeber}`));
+    const h = el("h3"); const a = el("a", null, p.name);
+    a.href = /kulturtoepfe\.de$/.test(location.hostname) ? `programm/${encodeURIComponent(p.id)}.html` : p.url; h.append(a); kopf.append(h);
+    if (!merkGeteilt) { const raus = el("button", "merk-raus", "Entfernen"); raus.type = "button";
+      raus.addEventListener("click", () => { merkUmschalten(p.id); merkAnsicht = merkAnsicht.filter(x => x !== p.id); merkZeichnen(); update(true); }); kopf.append(raus); }
+    sp.append(kopf);
+    for (const [lab, f] of MERK_ZEILEN) {
+      const v = f(p); const z = el("div", "merk-zelle" + (!v ? " ohne" : "") + (lab === "Bitte prüfen" && v ? " warn" : ""));
+      z.append(el("span", "lab", lab), el("div", null, v || "–")); sp.append(z);
+    }
+    const fu = el("div", "merk-fuss"); const l = el("a", null, "Zur Ausschreibung ↗"); l.href = p.url; l.target = "_blank"; l.rel = "noopener"; fu.append(l); sp.append(fu);
+    r.append(sp);
+  }
+}
+function merkOeffnen(ids, geteilt) {
+  merkAnsicht = ids; merkGeteilt = !!geteilt; merkFokus = document.activeElement;
+  $("merk-meldung").textContent = ""; $("merk-leeren").textContent = "Liste leeren"; $("merk-leeren").dataset.sicher = "";
+  merkZeichnen(); $("merk").hidden = false; document.body.classList.add("merk-offen"); $("merk-zu").focus();
+}
+function merkSchliessen() {
+  $("merk").hidden = true; document.body.classList.remove("merk-offen");
+  if (/^#merkliste/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
+  if (merkFokus && merkFokus.focus) merkFokus.focus();
+}
+function merkMelden(t) { $("merk-meldung").textContent = t; setTimeout(() => { if ($("merk-meldung").textContent === t) $("merk-meldung").textContent = ""; }, 4000); }
+async function kopieren(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) {
+    const t = el("textarea"); t.value = text; t.style.position = "fixed"; t.style.opacity = "0"; document.body.append(t); t.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch (e2) {} t.remove(); return ok;
+  }
+}
+function merkText() {
+  const progs = merkAnsicht.map(id => ALLE.find(p => p.id === id)).filter(Boolean);
+  const zeilen = progs.map((p, i) => {
+    const teile = [`${i + 1}. ${p.name} – ${p.foerdergeber}`];
+    for (const [lab, f] of MERK_ZEILEN) { if (lab === "Worauf achten") continue; const v = f(p); if (v) teile.push(`   ${lab}: ${v}`); }
+    teile.push(`   Ausschreibung: ${p.url}`); return teile.join("\n");
+  });
+  return `Kulturtöpfe – Merkliste (${$("stand").textContent})\n\n${zeilen.join("\n\n")}\n\nOhne Gewähr. Maßgeblich sind die Ausschreibungen der Fördergeber. https://kulturtoepfe.de/`;
+}
+function merkLink() { return `${location.origin}${location.pathname}#merkliste=${merkAnsicht.map(encodeURIComponent).join(",")}`; }
+function merkAusAdresse() {
+  const m = location.hash.match(/^#merkliste(?:=(.*))?$/); if (!m) return false;
+  const ids = m[1] ? m[1].split(",").map(decodeURIComponent).filter(Boolean) : null;
+  merkOeffnen(ids || [...merk], !!ids && ids.join() !== merk.join()); return true;
+}
+function merkEinrichten() {
+  merkZaehler();
+  $("merk-auf").addEventListener("click", () => merkOeffnen([...merk], false));
+  $("springen-merk").addEventListener("click", () => merkOeffnen([...merk], false));
+  $("merk-zu").addEventListener("click", merkSchliessen);
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("merk").hidden) merkSchliessen(); });
+  $("merk-drucken").addEventListener("click", () => window.print());
+  $("merk-text").addEventListener("click", async () => merkMelden(await kopieren(merkText()) ? "Text kopiert" : "Kopieren nicht möglich"));
+  $("merk-link").addEventListener("click", async () => {
+    const url = merkLink();
+    if (navigator.share && matchMedia("(pointer: coarse)").matches) { try { await navigator.share({ title: "Kulturtöpfe – Merkliste", url }); return; } catch (e) { if (e.name === "AbortError") return; } }
+    merkMelden(await kopieren(url) ? "Link kopiert" : "Kopieren nicht möglich");
+  });
+  $("merk-uebernehmen").addEventListener("click", () => {
+    merkAnsicht.forEach(id => { if (!merk.includes(id)) merk.push(id); }); merkSpeichern();
+    merkGeteilt = false; merkZeichnen(); update(true); merkMelden("Übernommen");
+  });
+  $("merk-leeren").addEventListener("click", e => {
+    const b = e.currentTarget;
+    if (!b.dataset.sicher) { b.dataset.sicher = "1"; b.textContent = "Wirklich leeren?"; return; }
+    merk = []; merkSpeichern(); merkAnsicht = []; merkZeichnen(); update(true); merkMelden("Liste geleert");
+  });
+  window.addEventListener("hashchange", merkAusAdresse);
+  merkAusAdresse();
+}
+
 function karte(t) {
   const p = t.p;
   const a = el("article", "prog" + (p.ruht ? " ruht" : ""));
@@ -547,10 +737,15 @@ function karte(t) {
   const info = el("span", null, `geprüft am ${fmtDatum(p.zuletzt_geprueft)}`);
   const offen = unbestaetigt(p);
   if (offen.length) { info.append(" · "); info.append(el("span", "unsicher", "unbestätigt: " + offen.join(", "))); }
+  const mk = el("button", "merk-btn"); mk.type = "button"; mk.dataset.id = p.id;
+  const mkZeigen = () => { const on = merk.includes(p.id); mk.setAttribute("aria-pressed", String(on)); mk.textContent = on ? "Gemerkt" : "Merken"; };
+  mk.addEventListener("click", () => { merkUmschalten(p.id); mkZeigen(); }); mkZeigen();
+  const l = el("span"); l.append(link);
   if (/kulturtoepfe\.de$/.test(location.hostname)) {
     const det = el("a", "detail", "Alle Angaben"); det.href = `programm/${encodeURIComponent(p.id)}.html`;
-    const l = el("span"); l.append(link, " · ", det); fuss.append(l, info);
-  } else fuss.append(link, info);
+    l.append(" · ", det);
+  }
+  l.append(" ", mk); fuss.append(l, info);
   a.append(fuss);
   return a;
 }
@@ -646,6 +841,7 @@ function start(daten) {
   $("ruhende").addEventListener("change", () => update());
   $("leeren").addEventListener("click", () => { $("bogen").reset(); $("region").hidden = true; ebeneFilter = "alle"; update(); });
   update();
+  merkEinrichten();
 }
 
 // Hell/Dunkel: Auto folgt dem System, die Wahl merkt sich der Browser
