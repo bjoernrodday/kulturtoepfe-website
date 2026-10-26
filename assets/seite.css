@@ -9,12 +9,12 @@
   --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --paper: #1d1e1c; --surface: #272825; --ink: #eae7e2; --muted: #b9b4ac; --line: #494b44; --accent: #ec955a; --accent-soft: #37291f; --slate: #a8c4d0; --slate-soft: #26343c;
-  --st-fest: #ec955a; --st-fest-f: #37291f; --st-fest-r: #b47a4d; --st-eil: #e6abb4; --st-eil-f: #3e272d; --st-eil-r: #b77d88;
+  --paper: #1d1e1c; --surface: #272825; --ink: #eae7e2; --muted: #b9b4ac; --line: #494b44; --accent: #dd8f47; --accent-soft: #37291f; --slate: #a8c4d0; --slate-soft: #26343c;
+  --st-fest: #dd8f47; --st-fest-f: #37291f; --st-fest-r: #b47a4d; --st-eil: #e6abb4; --st-eil-f: #3e272d; --st-eil-r: #b77d88;
   --st-vor: #ccb8a4; --st-vor-f: #2d2823; --st-vor-r: #8e7b68; --st-jed: #9ccdc0; --st-jed-f: #1d302d; --st-jed-r: #5b8b7e;
   --st-grau: #b5c0ca; --st-grau-f: #272e34; --st-grau-r: #74818d; color-scheme: dark; } }
-:root[data-theme="dark"] { --paper: #1d1e1c; --surface: #272825; --ink: #eae7e2; --muted: #b9b4ac; --line: #494b44; --accent: #ec955a; --accent-soft: #37291f; --slate: #a8c4d0; --slate-soft: #26343c;
-  --st-fest: #ec955a; --st-fest-f: #37291f; --st-fest-r: #b47a4d; --st-eil: #e6abb4; --st-eil-f: #3e272d; --st-eil-r: #b77d88;
+:root[data-theme="dark"] { --paper: #1d1e1c; --surface: #272825; --ink: #eae7e2; --muted: #b9b4ac; --line: #494b44; --accent: #dd8f47; --accent-soft: #37291f; --slate: #a8c4d0; --slate-soft: #26343c;
+  --st-fest: #dd8f47; --st-fest-f: #37291f; --st-fest-r: #b47a4d; --st-eil: #e6abb4; --st-eil-f: #3e272d; --st-eil-r: #b77d88;
   --st-vor: #ccb8a4; --st-vor-f: #2d2823; --st-vor-r: #8e7b68; --st-jed: #9ccdc0; --st-jed-f: #1d302d; --st-jed-r: #5b8b7e;
   --st-grau: #b5c0ca; --st-grau-f: #272e34; --st-grau-r: #74818d; color-scheme: dark; }
 * { box-sizing: border-box; }
