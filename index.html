@@ -203,6 +203,8 @@ details.mehr dd { margin: 0; overflow-wrap: anywhere; }
 .fuss a.detail { font-weight: 500; color: var(--muted); }
 .pruefen { font-size: 0.86rem; line-height: 1.45; border-left: 2px solid var(--stamp); padding: 2px 0 2px 10px; color: var(--ink); }
 .pruefen b { color: var(--stamp); font-weight: 600; }
+.summen-hinweis { font-size: 0.86rem; margin: -6px 0 14px; padding: 8px 12px; background: var(--slate-soft); border-radius: var(--r); line-height: 1.5; }
+.summen-hinweis .link { font-size: inherit; }
 .erfasst { font-size: 0.8rem; color: var(--muted); margin: -4px 0 14px; line-height: 1.45; }
 .unsicher { color: var(--stamp); }
 .leer { background: var(--surface); border: 1px dashed var(--line); border-radius: var(--r); padding: 24px; color: var(--muted); }
@@ -384,6 +386,7 @@ body.merk-offen { overflow: hidden; }
         </div>
       </div>
       <p class="erfasst" id="erfasst"></p>
+      <div class="summen-hinweis" id="summen-hinweis" hidden></div>
       <div class="liste" id="liste" aria-live="polite"></div>
     </section>
   </div>
@@ -509,6 +512,18 @@ function suchtext(p) {
 }
 function trifft(text, such) { return such.some(s => s.length >= 4 ? text.includes(s) : new RegExp(`(^|[^a-zäöüß])${s}`).test(text)); }
 
+// Benötigte Fördersumme: Passt die bekannte Spanne des Programms zum gewählten Bereich?
+// ja = überschneidet sich sicher, teil = Höchstsumme liegt unter dem Bedarf, unbekannt = keine (ausreichende) Angabe, nein = Mindestsumme liegt darüber
+function summenPassung(p, q) {
+  if (q.bmin == null && q.bmax == null) return "ja";
+  const lo = p.summe_min, hi = p.summe_max;
+  if (lo != null && q.bmax != null && lo > q.bmax) return "nein";
+  if (hi != null) return (q.bmin == null || hi >= q.bmin) ? "ja" : "teil";
+  if (lo != null && (q.bmin == null || lo >= q.bmin)) return "ja";
+  return "unbekannt";
+}
+let zeigeTeil = false, zeigeUnbekannt = false, letztesBudget = "";
+
 function frage() {
   const werte = n => [...document.querySelectorAll(`input[name="${n}"]:checked`)].map(i => i.value);
   const [bmin, bmax] = ($("budget").value || "-").split("-").map(x => x === "" ? null : Number(x));
@@ -557,10 +572,10 @@ function bewerte(p, q) {
     const t = q.schwer.filter(s => p.schwerpunkte.includes(s));
     punkte += 2 * t.length; grund.push(...t.map(s => SCHWER[s]));
   }
-  if (q.bmin != null || q.bmax != null) {
-    if (p.summe_min != null && q.bmax != null && p.summe_min > q.bmax) return null;
-    if (p.summe_max != null && q.bmin != null && p.summe_max < q.bmin) { punkte -= 3; pruefen.push(`deckt nur einen Teil des Bedarfs: höchstens ${fmtEuro(p.summe_max)}`); }
-  }
+  const summe = summenPassung(p, q);
+  if (summe === "nein") return null;
+  if (summe === "teil") { punkte -= 3; pruefen.push(`deckt nur einen Teil des Bedarfs: höchstens ${fmtEuro(p.summe_max)}`); }
+  if (summe === "unbekannt") { punkte -= 1; pruefen.push(p.summe_min != null ? `Höchstsumme nicht veröffentlicht (ab ${fmtEuro(p.summe_min)})` : "Fördersumme nicht veröffentlicht"); }
   if (q.worte.length) {
     const text = suchtext(p);
     const t = q.worte.filter(w => trifft(text, w.such));
@@ -571,7 +586,7 @@ function bewerte(p, q) {
   const f = naechsteFrist(p);
   if (f) { const tage = (new Date(f.datum) - heute) / 864e5; if (tage <= 120) punkte += 0.5; }
   if (p.ruht) punkte -= 5;
-  return { p, punkte, grund: [...new Set(grund)], pruefen, frist: f };
+  return { p, punkte, grund: [...new Set(grund)], pruefen, frist: f, summe };
 }
 
 function stempel(t) {
@@ -726,6 +741,7 @@ function karte(t) {
   if (p.summe_max != null && p.summe_min != null) add("Summe:", `${fmtEuro(p.summe_min)} bis ${fmtEuro(p.summe_max)}`);
   else if (p.summe_max != null) add("Summe:", `bis ${fmtEuro(p.summe_max)}`);
   else if (p.summe_min != null) add("Summe:", `ab ${fmtEuro(p.summe_min)}`);
+  else add("Summe:", "nicht veröffentlicht");
   if (p.gebiet.typ !== "bundesweit" && p.gebiet.typ !== "eu_weit") add("Gebiet:", p.region || p.gebiet.beschreibung);
   if (!t.frist && !p.ruht) add("Rhythmus:", RHYTHMUS[p.frist_rhythmus] || "");
   a.append(fakten);
@@ -775,7 +791,18 @@ function update(keepSichtbar) {
   const q = frage();
   if (!keepSichtbar) sichtbar = 30;
   speichern(q);
-  const treffer = ALLE.map(p => bewerte(p, q)).filter(Boolean);
+  if ($("budget").value !== letztesBudget) { letztesBudget = $("budget").value; zeigeTeil = zeigeUnbekannt = false; }
+  const alleTreffer = ALLE.map(p => bewerte(p, q)).filter(Boolean);
+  const nTeil = alleTreffer.filter(t => t.summe === "teil").length, nUnb = alleTreffer.filter(t => t.summe === "unbekannt").length;
+  const treffer = alleTreffer.filter(t => t.summe === "ja" || (t.summe === "teil" && zeigeTeil) || (t.summe === "unbekannt" && zeigeUnbekannt));
+  const sb = $("summen-hinweis"); sb.replaceChildren();
+  if (nTeil || nUnb) {
+    const zeile = (an, text, fn) => { const b = el("button", "link", an ? "ausblenden" : "einblenden"); b.type = "button"; b.addEventListener("click", fn);
+      const d = el("div"); d.append(`${text} ${an ? "werden angezeigt" : "sind ausgeblendet"} – `, b); return d; };
+    if (nTeil) sb.append(zeile(zeigeTeil, `${nTeil} ${nTeil === 1 ? "Programm" : "Programme"} mit kleinerer Höchstsumme`, () => { zeigeTeil = !zeigeTeil; update(); }));
+    if (nUnb) sb.append(zeile(zeigeUnbekannt, `${nUnb} ${nUnb === 1 ? "Programm" : "Programme"} ohne veröffentlichte Fördersumme`, () => { zeigeUnbekannt = !zeigeUnbekannt; update(); }));
+  }
+  sb.hidden = !(nTeil || nUnb);
   const zaehl = { alle: treffer.length };
   treffer.forEach(t => zaehl[t.p.ebene] = (zaehl[t.p.ebene] || 0) + 1);
   zeichneEbenen(zaehl);
