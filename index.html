@@ -640,7 +640,7 @@ const MERK_ZEILEN = [
   ["Frist", fristText], ["Fördersumme", summeText], ["Förderart", p => ART[p.foerderart] || p.foerderart],
   ["Eigenanteil", p => p.eigenanteil || ""], ["Antragsberechtigt", p => p.foerderberechtigte.map(x => WER[x] || x).join(", ")],
   ["Gebiet", p => p.region || p.gebiet.beschreibung], ["Bitte prüfen", p => ((bewerte(p, frage()) || {}).pruefen || []).join(" · ")],
-  ["Worauf achten", p => p.hinweise || ""], ["Unbestätigt", p => unbestaetigt(p).join(", ")],
+  ["Worauf achten", p => p.hinweise || ""], ["In der Ausschreibung prüfen", p => unbestaetigt(p).join(", ")],
 ];
 function merkZeichnen() {
   const progs = merkAnsicht.map(id => ALLE.find(p => p.id === id)).filter(Boolean);
@@ -774,7 +774,7 @@ function karte(t) {
   const link = el("a", null, "Zur Ausschreibung ↗"); link.href = p.url; link.target = "_blank"; link.rel = "noopener";
   const info = el("span", null, `geprüft am ${fmtDatum(p.zuletzt_geprueft)}`);
   const offen = unbestaetigt(p);
-  if (offen.length) { info.append(" · "); info.append(el("span", "unsicher", "unbestätigt: " + offen.join(", "))); }
+  if (offen.length) { info.append(" · "); const u = el("span", "unsicher", "Bitte in der Ausschreibung prüfen: " + offen.join(", ")); u.title = "Diese Angaben ließen sich an der Originalseite des Fördergebers nicht eindeutig belegen."; info.append(u); }
   const mk = el("button", "merk-btn"); mk.type = "button"; mk.dataset.id = p.id;
   const mkZeigen = () => { const on = merk.includes(p.id); mk.setAttribute("aria-pressed", String(on)); mk.textContent = on ? "Gemerkt" : "Merken"; };
   mk.addEventListener("click", () => { merkUmschalten(p.id); mkZeigen(); }); mkZeigen();
