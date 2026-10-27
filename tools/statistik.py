@@ -1,16 +1,26 @@
 """Holt die Besucherzahlen von GoatCounter (kulturtoepfe.goatcounter.com) und legt sie in statistik/goatcounter.json ab.
 Läuft als GitHub Action mit dem Secret GOATCOUNTER_TOKEN (API-Schlüssel nur mit Leserecht)."""
-import datetime, json, os, sys, urllib.error, urllib.request
+import datetime, json, os, sys, time, urllib.error, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 API = "https://kulturtoepfe.goatcounter.com/api/v0"
 TOKEN = os.environ.get("GOATCOUNTER_TOKEN")
 
 
-def hole(pfad):
-    req = urllib.request.Request(API + pfad, headers={"Authorization": "Bearer " + TOKEN, "Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+def hole(pfad, versuche=4):
+    """GoatCounter antwortet gelegentlich vorübergehend mit 404 oder 5xx (so am 27.10.2026 bei /stats/total); dann mit Pause erneut versuchen."""
+    for n in range(versuche):
+        req = urllib.request.Request(API + pfad, headers={"Authorization": "Bearer " + TOKEN, "Content-Type": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if n == versuche - 1 or e.code not in (404, 429, 500, 502, 503, 504):
+                raise
+        except (urllib.error.URLError, TimeoutError):
+            if n == versuche - 1:
+                raise
+        time.sleep(20 * (n + 1))
 
 
 def main():
